@@ -1,9 +1,16 @@
 ---
-// Campaign Information
-const campaignName = 'Bill Llia for Governor';
-const campaignSlogan = 'Service with integrity. Leadership with heart.';
-const campaignEmail = 'info@billllia.com';
-const campaignPhone = '+254 7XX XXX XXX';
+interface Props {
+  campaignName: string;
+  campaignSlogan: string;
+  campaignEmail: string;
+  campaignPhone: string;
+}
+
+import Logo from '@ui/Logo.astro';
+import Icon from '@ui/Icon.astro';
+import Button from '@ui/Button.astro';
+
+const { campaignName, campaignSlogan, campaignEmail, campaignPhone } = Astro.props;
 const currentYear = new Date().getFullYear();
 
 const navLinks = [
@@ -11,26 +18,15 @@ const navLinks = [
   { text: 'Platform', href: '/#features' },
   { text: 'About', href: '/about' },
   { text: 'Blog', href: '/blog' },
+  { text: 'Press', href: '/press' },
   { text: 'Petition', href: '/petition' },
   { text: 'Contact', href: '/contact' },
 ];
 
 const socialLinks = [
-  {
-    label: 'Facebook',
-    href: 'https://facebook.com/billllia',
-    svg: '<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
-  },
-  {
-    label: 'Twitter',
-    href: 'https://twitter.com/billllia',
-    svg: '<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
-  },
-  {
-    label: 'Instagram',
-    href: 'https://instagram.com/billllia',
-    svg: '<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>',
-  },
+  { label: 'Facebook', href: 'https://facebook.com/billllia', icon: 'facebook' as const },
+  { label: 'Twitter', href: 'https://twitter.com/billllia', icon: 'twitter' as const },
+  { label: 'Instagram', href: 'https://instagram.com/billllia', icon: 'instagram' as const },
 ];
 ---
 
@@ -40,14 +36,7 @@ const socialLinks = [
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
       <!-- Brand -->
       <div class="reveal lg:col-span-1">
-        <div class="flex items-center gap-2">
-          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--theme-amber)] text-sm font-bold text-white">
-            BL
-          </div>
-          <span class="text-lg font-bold text-[var(--theme-amber)]">
-            {campaignName}
-          </span>
-        </div>
+        <Logo variant="footer" name={campaignName} />
         <p class="mt-3 text-sm leading-relaxed text-[var(--theme-text-secondary)]">{campaignSlogan}</p>
 
         <!-- Social links -->
@@ -59,8 +48,9 @@ const socialLinks = [
               rel="noopener noreferrer"
               class="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--theme-text-tertiary)] transition-all hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)] hover:-translate-y-0.5"
               aria-label={social.label}
-              set:html={social.svg}
-            />
+            >
+              <Icon name={social.icon} class="h-5 w-5" />
+            </a>
           ))}
         </div>
       </div>
@@ -106,15 +96,12 @@ const socialLinks = [
         <p class="mt-3 text-sm text-[var(--theme-text-secondary)]">
           Get campaign updates and news delivered to your inbox.
         </p>
-        <a
-          href="/contact"
-          class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--theme-lime)] px-4 py-2.5 text-sm font-semibold text-[var(--color-warm-text)] transition-all hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0"
-        >
+        <Button href="/contact" variant="primary" size="md" class="w-full">
           Subscribe
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
-        </a>
+        </Button>
       </div>
     </div>
 
@@ -127,7 +114,7 @@ const socialLinks = [
         &copy; {currentYear} {campaignName}. All rights reserved.
         <br class="sm:hidden" />
         <span class="hidden sm:inline"> &middot; </span>
-        Paid for by the Bill Llia for Governor Campaign.
+        Paid for by the {campaignName} Campaign.
       </div>
     </div>
   </div>

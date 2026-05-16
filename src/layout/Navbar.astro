@@ -1,24 +1,13 @@
 ---
 import { navigationList } from '@utils/navigation';
+import Logo from '@ui/Logo.astro';
+import Button from '@ui/Button.astro';
 import ThemeToggle from '@ui/ThemeToggle.astro';
 ---
 
 <header id="navbar" class="fixed top-0 left-0 right-0 z-50 border-b border-[var(--theme-navbar-border,rgba(0,0,0,0.06))] bg-[var(--theme-navbar-bg,rgba(255,255,255,0.8))] backdrop-blur-xl transition-shadow duration-300">
   <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-2 group">
-      <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--theme-amber)] text-sm font-bold text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-        BL
-      </div>
-      <div class="flex flex-col">
-        <span class="text-lg font-bold leading-tight text-[var(--theme-amber)]">
-          Bill Llia
-        </span>
-        <span class="text-[10px] font-medium uppercase tracking-[0.2em] text-[var(--theme-amber)]/70">
-          For Governor
-        </span>
-      </div>
-    </a>
+    <Logo variant="navbar" />
 
     <!-- Desktop Nav -->
     <div class="hidden items-center gap-1 md:flex">
@@ -47,12 +36,7 @@ import ThemeToggle from '@ui/ThemeToggle.astro';
     <div class="flex items-center gap-1 md:gap-2">
       <ThemeToggle />
 
-      <a
-        href="/contact"
-        class="hidden rounded-lg bg-[var(--theme-lime)] px-4 py-2 text-sm font-semibold text-[var(--color-warm-text)] transition-all hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0 md:inline-block"
-      >
-        Join Us
-      </a>
+      <Button href="/contact" variant="primary" size="sm" class="hidden md:inline-flex">Join Us</Button>
 
       <!-- Mobile menu button -->
       <button id="mobile-menu-toggle" class="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-amber)]/10 md:hidden" aria-label="Toggle menu" aria-expanded="false">
@@ -67,7 +51,7 @@ import ThemeToggle from '@ui/ThemeToggle.astro';
   </nav>
 
   <!-- Mobile menu with slide animation -->
-  <div id="mobile-menu" class="max-h-0 overflow-hidden border-t border-[var(--theme-navbar-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface,#ffffff)]/95 px-4 backdrop-blur-xl transition-all duration-300 ease-in-out md:hidden">
+  <div id="mobile-menu" class="max-h-0 overflow-hidden border-t border-[var(--theme-navbar-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface,#ffffff)]/95 px-4 backdrop-blur-xl opacity-0 translate-y-[-8px] invisible transition-all duration-300 ease-in-out md:hidden">
     <div class="flex flex-col gap-1 py-4">
       {navigationList.map((link) => (
         <a
@@ -86,12 +70,7 @@ import ThemeToggle from '@ui/ThemeToggle.astro';
           )}
         </a>
       ))}
-      <a
-        href="/contact"
-        class="mt-2 rounded-lg bg-[var(--theme-lime)] px-4 py-2.5 text-center text-sm font-semibold text-[var(--color-warm-text)]"
-      >
-        Join Us
-      </a>
+      <Button href="/contact" variant="primary" size="md" class="mt-2 w-full">Join Us</Button>
     </div>
   </div>
 </header>
@@ -105,25 +84,63 @@ import ThemeToggle from '@ui/ThemeToggle.astro';
     const navbar = document.getElementById('navbar');
 
     if (toggle && menu) {
+      const focusableEls = () =>
+        Array.from(menu.querySelectorAll<HTMLElement>('a, button, [tabindex]:not([tabindex="-1"])'));
+
+      const openMenu = () => {
+        menu.classList.remove('max-h-0', 'opacity-0', 'translate-y-[-8px]', 'invisible');
+        menu.classList.add('max-h-[500px]', 'opacity-100', 'translate-y-0', 'visible');
+        toggle.setAttribute('aria-expanded', 'true');
+        openIcon?.classList.add('hidden');
+        closeIcon?.classList.remove('hidden');
+        // Move focus to first link in menu
+        const first = focusableEls()[0];
+        if (first) first.focus();
+      };
+
+      const closeMenu = () => {
+        menu.classList.remove('max-h-[500px]', 'opacity-100', 'translate-y-0', 'visible');
+        menu.classList.add('max-h-0', 'opacity-0', 'translate-y-[-8px]', 'invisible');
+        toggle.setAttribute('aria-expanded', 'false');
+        openIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+        // Return focus to toggle
+        toggle.focus();
+      };
+
       toggle.addEventListener('click', () => {
-        const isOpen = menu.classList.toggle('open');
-        menu.classList.toggle('max-h-0', !isOpen);
-        menu.classList.toggle('max-h-96', isOpen);
-        toggle.setAttribute('aria-expanded', String(isOpen));
-        openIcon?.classList.toggle('hidden', isOpen);
-        closeIcon?.classList.toggle('hidden', !isOpen);
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
       });
 
       // Close on link click
-      menu.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => {
-          menu.classList.remove('open');
-          menu.classList.add('max-h-0');
-          menu.classList.remove('max-h-96');
-          toggle.setAttribute('aria-expanded', 'false');
-          openIcon?.classList.remove('hidden');
-          closeIcon?.classList.add('hidden');
-        });
+      menu.querySelectorAll('button, a').forEach((el) => {
+        el.addEventListener('click', closeMenu);
+      });
+
+      // Close on Escape
+      menu.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+
+      // Focus trap: cycle Tab within menu
+      menu.addEventListener('keydown', (e) => {
+        if (e.key !== 'Tab') return;
+        const els = focusableEls();
+        if (els.length === 0) return;
+        const first = els[0];
+        const last = els[els.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
       });
     }
 
