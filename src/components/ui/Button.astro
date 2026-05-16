@@ -1,6 +1,6 @@
 ---
 import { twMerge } from 'tailwind-merge';
-const { type, href, rel, target, variant, size, className, id, loading } = Astro.props;
+const { type, href, rel, target, variant, size, class: className, id, loading } = Astro.props;
 
 export interface Props {
   type?: 'button' | 'submit' | 'reset';
@@ -9,7 +9,7 @@ export interface Props {
   target?: '_self' | '_blank' | '_parent' | '_top';
   variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
-  className?: string;
+  class?: string;
   id?: string;
   loading?: boolean;
 }
