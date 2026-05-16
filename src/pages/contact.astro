@@ -26,61 +26,54 @@ const error = Astro.url.searchParams.get('error');
   <!-- Hero -->
   <section class="bg-[var(--theme-surface-muted)] pt-28 pb-16 sm:pb-20">
     <div class="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-      <h1 class="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-5xl">
-        <span class="bg-gradient-to-r from-[var(--theme-blue)] to-[var(--theme-amber)] bg-clip-text text-transparent">Get In Touch</span>
-      </h1>
-      <p class="mx-auto mt-4 max-w-xl text-lg text-[var(--theme-text-secondary)]">
-        Have a question, want to volunteer, or just want to share your thoughts? We'd love to hear from you.
-      </p>
+      <div class="absolute top-10 right-1/4 h-32 w-32 rounded-full bg-[var(--theme-amber)]/5 blur-2xl animate-float" />
+      <div class="absolute bottom-10 left-1/4 h-24 w-24 rounded-full bg-[var(--theme-amber)]/5 blur-2xl animate-float-delayed" />
+
+      <div class="relative">
+        <h1 class="reveal text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-5xl">
+          <span class="bg-gradient-to-r from-[var(--theme-amber)] to-[var(--theme-amber)]/70 bg-clip-text text-transparent">Get In Touch</span>
+        </h1>
+        <p class="reveal delay-100 mx-auto mt-4 max-w-xl text-lg text-[var(--theme-text-secondary)]">
+          Have a question, want to volunteer, or just want to share your thoughts? We'd love to hear from you.
+        </p>
+      </div>
     </div>
   </section>
 
-  <!-- Status Messages -->
+  <!-- Status Messages as Toast -->
   {
     success === 'true' && (
       <section class="bg-[var(--theme-surface-muted)] pb-8">
         <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-          <div class="rounded-xl border border-emerald-500/30 bg-emerald-900/20 p-6 text-center">
-            <svg class="mx-auto h-10 w-10 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="reveal flex items-center gap-4 rounded-xl border border-emerald-500/30 bg-emerald-900/20 p-5">
+            <svg class="h-8 w-8 shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <h3 class="mt-3 text-lg font-semibold text-emerald-300">Message Sent!</h3>
-            <p class="mt-1 text-sm text-emerald-200/70">
-              Thank you for reaching out. We'll get back to you within 24 hours.
-            </p>
+            <div>
+              <h3 class="text-base font-semibold text-emerald-300">Message Sent!</h3>
+              <p class="text-sm text-emerald-200/70">Thank you for reaching out. We'll get back to you within 24 hours.</p>
+            </div>
           </div>
         </div>
       </section>
     )
   }
   {
-    error === 'missing-fields' && (
+    error && (
       <section class="bg-[var(--theme-surface-muted)] pb-8">
         <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-          <div class="rounded-xl border border-red-500/30 bg-red-900/20 p-6 text-center">
-            <p class="text-sm font-medium text-red-300">Please fill in all required fields (name, email, subject, and message).</p>
-          </div>
-        </div>
-      </section>
-    )
-  }
-  {
-    error === 'invalid-email' && (
-      <section class="bg-[var(--theme-surface-muted)] pb-8">
-        <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-          <div class="rounded-xl border border-red-500/30 bg-red-900/20 p-6 text-center">
-            <p class="text-sm font-medium text-red-300">Please enter a valid email address.</p>
-          </div>
-        </div>
-      </section>
-    )
-  }
-  {
-    error === 'server-error' && (
-      <section class="bg-[var(--theme-surface-muted)] pb-8">
-        <div class="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-          <div class="rounded-xl border border-red-500/30 bg-red-900/20 p-6 text-center">
-            <p class="text-sm font-medium text-red-300">Something went wrong. Please try again later.</p>
+          <div class="reveal flex items-center gap-4 rounded-xl border border-red-500/30 bg-red-900/20 p-5">
+            <svg class="h-8 w-8 shrink-0 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <h3 class="text-base font-semibold text-red-300">Something went wrong</h3>
+              <p class="text-sm text-red-200/70">
+                {error === 'missing-fields' && 'Please fill in all required fields.'}
+                {error === 'invalid-email' && 'Please enter a valid email address.'}
+                {error === 'server-error' && 'Server error. Please try again later.'}
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -92,7 +85,7 @@ const error = Astro.url.searchParams.get('error');
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="mx-auto grid max-w-4xl gap-10 lg:grid-cols-2">
         <!-- Contact Info -->
-        <div>
+        <div class="reveal">
           <h2 class="text-2xl font-bold text-[var(--theme-text)]">Contact Information</h2>
           <p class="mt-3 text-sm text-[var(--theme-text-secondary)]">
             Reach out through any of the channels below. We aim to respond within 24 hours.
@@ -100,8 +93,8 @@ const error = Astro.url.searchParams.get('error');
 
           <div class="mt-8 space-y-6">
             <!-- Email -->
-            <div class="flex items-start gap-4">
-              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--theme-blue)]/10 text-[var(--theme-blue)] ring-1 ring-[var(--theme-blue)]/20">
+            <div class="group flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--theme-amber)]/10 text-[var(--theme-amber)] ring-1 ring-[var(--theme-amber)]/20 transition-all duration-300 group-hover:scale-110 group-hover:bg-[var(--theme-amber)]/20">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
@@ -115,8 +108,8 @@ const error = Astro.url.searchParams.get('error');
             </div>
 
             <!-- Phone -->
-            <div class="flex items-start gap-4">
-              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--theme-blue)]/10 text-[var(--theme-blue)] ring-1 ring-[var(--theme-blue)]/20">
+            <div class="group flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--theme-amber)]/10 text-[var(--theme-amber)] ring-1 ring-[var(--theme-amber)]/20 transition-all duration-300 group-hover:scale-110 group-hover:bg-[var(--theme-amber)]/20">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
                 </svg>
@@ -128,8 +121,8 @@ const error = Astro.url.searchParams.get('error');
             </div>
 
             <!-- Address -->
-            <div class="flex items-start gap-4">
-              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--theme-blue)]/10 text-[var(--theme-blue)] ring-1 ring-[var(--theme-blue)]/20">
+            <div class="group flex items-start gap-4">
+              <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[var(--theme-amber)]/10 text-[var(--theme-amber)] ring-1 ring-[var(--theme-amber)]/20 transition-all duration-300 group-hover:scale-110 group-hover:bg-[var(--theme-amber)]/20">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
@@ -150,7 +143,7 @@ const error = Astro.url.searchParams.get('error');
                 href={contactInfo.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--theme-blue)]/10 text-[var(--theme-blue)] ring-1 ring-[var(--theme-blue)]/20 transition-colors hover:bg-[var(--theme-blue)]/20"
+                class="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--theme-amber)]/10 text-[var(--theme-amber)] ring-1 ring-[var(--theme-amber)]/20 transition-all hover:bg-[var(--theme-amber)]/20 hover:-translate-y-0.5"
                 aria-label="Facebook"
               >
                 <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
@@ -159,7 +152,7 @@ const error = Astro.url.searchParams.get('error');
                 href={contactInfo.social.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--theme-blue)]/10 text-[var(--theme-blue)] ring-1 ring-[var(--theme-blue)]/20 transition-colors hover:bg-[var(--theme-blue)]/20"
+                class="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--theme-amber)]/10 text-[var(--theme-amber)] ring-1 ring-[var(--theme-amber)]/20 transition-all hover:bg-[var(--theme-amber)]/20 hover:-translate-y-0.5"
                 aria-label="Twitter / X"
               >
                 <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -168,7 +161,7 @@ const error = Astro.url.searchParams.get('error');
                 href={contactInfo.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--theme-blue)]/10 text-[var(--theme-blue)] ring-1 ring-[var(--theme-blue)]/20 transition-colors hover:bg-[var(--theme-blue)]/20"
+                class="flex h-10 w-10 items-center justify-center rounded-lg bg-[var(--theme-amber)]/10 text-[var(--theme-amber)] ring-1 ring-[var(--theme-amber)]/20 transition-all hover:bg-[var(--theme-amber)]/20 hover:-translate-y-0.5"
                 aria-label="Instagram"
               >
                 <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -177,62 +170,77 @@ const error = Astro.url.searchParams.get('error');
           </div>
         </div>
 
-        <!-- Contact Form -->
-        <div class="rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-bg)]/60 p-8 backdrop-blur-sm">
+        <!-- Contact Form with Floating Labels -->
+        <div class="reveal delay-100 rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-bg)]/60 p-8 backdrop-blur-sm">
           <h2 class="text-xl font-bold text-[var(--theme-text)]">Send a Message</h2>
           <p class="mt-2 text-sm text-[var(--theme-text-secondary)]">
             Fill out the form below and we'll get back to you as soon as possible.
           </p>
           <form class="mt-6 space-y-5" action="/api/contact" method="POST">
-            <div>
-              <label for="name" class="block text-sm font-medium text-[var(--theme-text)]">Full Name</label>
+            <!-- Name - Floating label -->
+            <div class="relative">
               <input
                 type="text"
                 id="name"
                 name="name"
                 required
-                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-[var(--theme-amber)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--theme-amber)]/20"
                 placeholder="e.g., Jane Doe"
+                class="peer p-4 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] text-sm text-[var(--theme-input-text)] placeholder:text-transparent transition-colors focus:border-[var(--theme-amber)]/50 focus:ring-2 focus:ring-[var(--theme-amber)]/20 focus:pt-6 focus:pb-2 not-placeholder-shown:pt-6 not-placeholder-shown:pb-2 autofill:pt-6 autofill:pb-2"
               />
+              <label for="name" class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition-all duration-100 border border-transparent text-[var(--theme-input-placeholder)] origin-[0_0] peer-focus:scale-90 peer-focus:translate-x-0.5 peer-focus:-translate-y-1.5 peer-focus:text-[var(--theme-amber)] peer-not-placeholder-shown:scale-90 peer-not-placeholder-shown:translate-x-0.5 peer-not-placeholder-shown:-translate-y-1.5 peer-not-placeholder-shown:text-[var(--theme-text-tertiary)]">
+                Full Name
+              </label>
             </div>
-            <div>
-              <label for="email" class="block text-sm font-medium text-[var(--theme-text)]">Email Address</label>
+            <!-- Email - Floating label -->
+            <div class="relative">
               <input
                 type="email"
                 id="email"
                 name="email"
                 required
-                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-[var(--theme-amber)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--theme-amber)]/20"
                 placeholder="e.g., jane@example.com"
+                class="peer p-4 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] text-sm text-[var(--theme-input-text)] placeholder:text-transparent transition-colors focus:border-[var(--theme-amber)]/50 focus:ring-2 focus:ring-[var(--theme-amber)]/20 focus:pt-6 focus:pb-2 not-placeholder-shown:pt-6 not-placeholder-shown:pb-2 autofill:pt-6 autofill:pb-2"
               />
+              <label for="email" class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition-all duration-100 border border-transparent text-[var(--theme-input-placeholder)] origin-[0_0] peer-focus:scale-90 peer-focus:translate-x-0.5 peer-focus:-translate-y-1.5 peer-focus:text-[var(--theme-amber)] peer-not-placeholder-shown:scale-90 peer-not-placeholder-shown:translate-x-0.5 peer-not-placeholder-shown:-translate-y-1.5 peer-not-placeholder-shown:text-[var(--theme-text-tertiary)]">
+                Email Address
+              </label>
             </div>
-            <div>
-              <label for="subject" class="block text-sm font-medium text-[var(--theme-text)]">Subject</label>
+            <!-- Subject - Floating label -->
+            <div class="relative">
               <input
                 type="text"
                 id="subject"
                 name="subject"
                 required
-                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-[var(--theme-amber)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--theme-amber)]/20"
                 placeholder="e.g., I want to volunteer"
+                class="peer p-4 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] text-sm text-[var(--theme-input-text)] placeholder:text-transparent transition-colors focus:border-[var(--theme-amber)]/50 focus:ring-2 focus:ring-[var(--theme-amber)]/20 focus:pt-6 focus:pb-2 not-placeholder-shown:pt-6 not-placeholder-shown:pb-2 autofill:pt-6 autofill:pb-2"
               />
+              <label for="subject" class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition-all duration-100 border border-transparent text-[var(--theme-input-placeholder)] origin-[0_0] peer-focus:scale-90 peer-focus:translate-x-0.5 peer-focus:-translate-y-1.5 peer-focus:text-[var(--theme-amber)] peer-not-placeholder-shown:scale-90 peer-not-placeholder-shown:translate-x-0.5 peer-not-placeholder-shown:-translate-y-1.5 peer-not-placeholder-shown:text-[var(--theme-text-tertiary)]">
+                Subject
+              </label>
             </div>
-            <div>
-              <label for="message" class="block text-sm font-medium text-[var(--theme-text)]">Your Message</label>
+            <!-- Message - Floating label textarea -->
+            <div class="relative">
               <textarea
                 id="message"
                 name="message"
                 rows="4"
                 required
-                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-[var(--theme-amber)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--theme-amber)]/20"
                 placeholder="Tell us how you'd like to get involved..."
+                class="peer p-4 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] text-sm text-[var(--theme-input-text)] placeholder:text-transparent transition-colors focus:border-[var(--theme-amber)]/50 focus:ring-2 focus:ring-[var(--theme-amber)]/20 focus:pt-6 focus:pb-2 not-placeholder-shown:pt-6 not-placeholder-shown:pb-2 autofill:pt-6 autofill:pb-2 resize-none"
               ></textarea>
+              <label for="message" class="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition-all duration-100 border border-transparent text-[var(--theme-input-placeholder)] origin-[0_0] peer-focus:scale-90 peer-focus:translate-x-0.5 peer-focus:-translate-y-1.5 peer-focus:text-[var(--theme-amber)] peer-not-placeholder-shown:scale-90 peer-not-placeholder-shown:translate-x-0.5 peer-not-placeholder-shown:-translate-y-1.5 peer-not-placeholder-shown:text-[var(--theme-text-tertiary)]">
+                Your Message
+              </label>
             </div>
             <button
               type="submit"
-              class="w-full rounded-xl bg-gradient-to-r from-[var(--theme-blue)] to-[var(--theme-amber)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[var(--theme-blue)]/20 transition-all hover:opacity-90"
+              class="group w-full rounded-xl bg-gradient-to-r from-[var(--theme-amber)] to-[var(--theme-amber)]/70 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[var(--theme-amber)]/20 transition-all hover:opacity-90 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
             >
               Send Message
+              <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 inline-block h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
             </button>
           </form>
         </div>

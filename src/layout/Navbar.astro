@@ -1,13 +1,13 @@
 ---
-import { navigationLinks } from '@utils/navigation';
+import { navigationList } from '@utils/navigation';
 import ThemeToggle from '@ui/ThemeToggle.astro';
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 border-b border-[var(--theme-navbar-border,rgba(0,0,0,0.06))] bg-[var(--theme-navbar-bg,rgba(255,255,255,0.8))] backdrop-blur-xl">
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50 border-b border-[var(--theme-navbar-border,rgba(0,0,0,0.06))] bg-[var(--theme-navbar-bg,rgba(255,255,255,0.8))] backdrop-blur-xl transition-shadow duration-300">
   <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
     <!-- Logo -->
     <a href="/" class="flex items-center gap-2 group">
-      <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--theme-amber)] text-sm font-bold text-white">
+      <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--theme-amber)] text-sm font-bold text-white transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
         BL
       </div>
       <div class="flex flex-col">
@@ -22,24 +22,25 @@ import ThemeToggle from '@ui/ThemeToggle.astro';
 
     <!-- Desktop Nav -->
     <div class="hidden items-center gap-1 md:flex">
-      <a href="/" class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--theme-text-secondary)] transition-all hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">
-        Home
-      </a>
-      <a href={navigationLinks.platform.href} class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--theme-text-secondary)] transition-all hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">
-        {navigationLinks.platform.text}
-      </a>
-      <a href={navigationLinks.about.href} class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--theme-text-secondary)] transition-all hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">
-        {navigationLinks.about.text}
-      </a>
-      <a href={navigationLinks.blog.href} class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--theme-text-secondary)] transition-all hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">
-        {navigationLinks.blog.text}
-      </a>
-      <a href="/petition" class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--theme-amber)] transition-all hover:bg-[var(--theme-amber)]/10">
-        Petition
-      </a>
-      <a href={navigationLinks.contact.href} class="rounded-lg px-3 py-2 text-sm font-medium text-[var(--theme-text-secondary)] transition-all hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">
-        {navigationLinks.contact.text}
-      </a>
+      {navigationList.map((link) => (
+        <a
+          href={link.href}
+          class="group relative rounded-lg px-3 py-2 text-sm font-medium text-[var(--theme-text-secondary)] transition-all hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]"
+        >
+          {link.text === 'Petition' ? (
+            <span class="flex items-center gap-1.5 text-[var(--theme-amber)]">
+              <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              {link.text}
+            </span>
+          ) : (
+            link.text
+          )}
+          <!-- Underline indicator -->
+          <span class="absolute bottom-0 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full bg-[var(--theme-amber)] transition-all duration-300 group-hover:w-3/4" />
+        </a>
+      ))}
     </div>
 
     <!-- CTA + Theme Toggle + Mobile Toggle -->
@@ -48,44 +49,98 @@ import ThemeToggle from '@ui/ThemeToggle.astro';
 
       <a
         href="/contact"
-        class="hidden rounded-lg bg-[var(--theme-lime)] px-4 py-2 text-sm font-semibold text-[var(--color-warm-text)] transition-all hover:brightness-95 md:inline-block"
+        class="hidden rounded-lg bg-[var(--theme-lime)] px-4 py-2 text-sm font-semibold text-[var(--color-warm-text)] transition-all hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0 md:inline-block"
       >
         Join Us
       </a>
 
       <!-- Mobile menu button -->
-      <button id="mobile-menu-toggle" class="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-amber)]/10 md:hidden" aria-label="Toggle menu">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <button id="mobile-menu-toggle" class="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-amber)]/10 md:hidden" aria-label="Toggle menu" aria-expanded="false">
+        <svg id="menu-icon-open" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="menu-icon-close" class="hidden h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
   </nav>
 
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden border-t border-[var(--theme-navbar-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface,#ffffff)]/95 px-4 py-4 backdrop-blur-xl md:hidden">
-    <div class="flex flex-col gap-1">
-      <a href="/" class="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">Home</a>
-      <a href={navigationLinks.platform.href} class="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">{navigationLinks.platform.text}</a>
-      <a href={navigationLinks.about.href} class="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">{navigationLinks.about.text}</a>
-      <a href={navigationLinks.blog.href} class="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">{navigationLinks.blog.text}</a>
-      <a href="/petition" class="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--theme-amber)] transition-colors hover:bg-[var(--theme-amber)]/10">Petition</a>
-      <a href={navigationLinks.contact.href} class="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--theme-text-secondary)] transition-colors hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]">{navigationLinks.contact.text}</a>
-      <a href="/contact" class="mt-2 rounded-lg bg-[var(--theme-lime)] px-4 py-2.5 text-center text-sm font-semibold text-[var(--color-warm-text)]">Join Us</a>
+  <!-- Mobile menu with slide animation -->
+  <div id="mobile-menu" class="max-h-0 overflow-hidden border-t border-[var(--theme-navbar-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface,#ffffff)]/95 px-4 backdrop-blur-xl transition-all duration-300 ease-in-out md:hidden">
+    <div class="flex flex-col gap-1 py-4">
+      {navigationList.map((link) => (
+        <a
+          href={link.href}
+          class="rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--theme-text-secondary)] transition-all hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)] hover:translate-x-1"
+        >
+          {link.text === 'Petition' ? (
+            <span class="flex items-center gap-1.5 text-[var(--theme-amber)]">
+              <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              {link.text}
+            </span>
+          ) : (
+            link.text
+          )}
+        </a>
+      ))}
+      <a
+        href="/contact"
+        class="mt-2 rounded-lg bg-[var(--theme-lime)] px-4 py-2.5 text-center text-sm font-semibold text-[var(--color-warm-text)]"
+      >
+        Join Us
+      </a>
     </div>
   </div>
 </header>
 
 <script>
-  const toggle = document.getElementById('mobile-menu-toggle');
-  const menu = document.getElementById('mobile-menu');
-  if (toggle && menu) {
-    toggle.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
-    // Close on link click
-    menu.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => menu.classList.add('hidden'));
-    });
-  }
+  document.addEventListener('astro:page-load', () => {
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+    const navbar = document.getElementById('navbar');
+
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => {
+        const isOpen = menu.classList.toggle('open');
+        menu.classList.toggle('max-h-0', !isOpen);
+        menu.classList.toggle('max-h-96', isOpen);
+        toggle.setAttribute('aria-expanded', String(isOpen));
+        openIcon?.classList.toggle('hidden', isOpen);
+        closeIcon?.classList.toggle('hidden', !isOpen);
+      });
+
+      // Close on link click
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          menu.classList.remove('open');
+          menu.classList.add('max-h-0');
+          menu.classList.remove('max-h-96');
+          toggle.setAttribute('aria-expanded', 'false');
+          openIcon?.classList.remove('hidden');
+          closeIcon?.classList.add('hidden');
+        });
+      });
+    }
+
+    // Add shadow on scroll
+    if (navbar) {
+      const handleScroll = () => {
+        if (window.scrollY > 10) {
+          navbar.classList.add('shadow-[0_1px_3px_0_rgba(0,0,0,0.08)]');
+        } else {
+          navbar.classList.remove('shadow-[0_1px_3px_0_rgba(0,0,0,0.08)]');
+        }
+      };
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      // Clean up listener on page transitions
+      document.addEventListener('astro:before-swap', () => {
+        window.removeEventListener('scroll', handleScroll);
+      });
+    }
+  });
 </script>

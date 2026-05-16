@@ -83,6 +83,7 @@
   --theme-amber: rgb(137, 93, 54);
   --theme-amber-glow: rgba(172, 83, 2, 0.3);
   --theme-lime: #b9fd8e;
+  --theme-card-hover-shadow: 0 0 0 1px rgba(137,93,54,0.15), 0 4px 12px -2px rgba(0,0,0,0.1);
 }
 
 /* Warm dark theme */
@@ -103,6 +104,7 @@
   --theme-amber: rgb(200, 150, 90);
   --theme-amber-glow: rgba(200, 150, 90, 0.3);
   --theme-lime: #b9fd8e;
+  --theme-card-hover-shadow: 0 0 0 1px rgba(200,150,90,0.2), 0 4px 12px -2px rgba(0,0,0,0.3);
 }
 
 /* Respect system preference when user hasn't explicitly toggled */
@@ -124,6 +126,7 @@
     --theme-amber: rgb(200, 150, 90);
     --theme-amber-glow: rgba(200, 150, 90, 0.3);
     --theme-lime: #b9fd8e;
+    --theme-card-hover-shadow: 0 0 0 1px rgba(200,150,90,0.2), 0 4px 12px -2px rgba(0,0,0,0.3);
   }
 }
 
@@ -133,6 +136,13 @@
 @theme inline {
   --animate-scroll: scroll var(--duration, 40s) var(--direction, forwards)
     linear infinite;
+  --animate-fade-up: fade-up 0.6s ease-out forwards;
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-scale-in: scale-in 0.4s ease-out forwards;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-float-delayed: float 3s ease-in-out 1.5s infinite;
+  --animate-pulse-soft: pulse-soft 2s ease-in-out infinite;
+  --animate-spin-slow: spin 8s linear infinite;
 
   /* https://tailwindcss.com/docs/font-family#customizing-your-theme */
   --font-instrument-serif: 'Instrument Serif', serif;
@@ -140,12 +150,61 @@
   --font-dm-sans: 'DM Sans', sans-serif;
   --font-work-sans: 'Work Sans', sans-serif;
 
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes scale-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
   @keyframes scroll {
     to {
       transform: translate(calc(-50% - 0.5rem));
     }
   }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
 }
+
+/* Staggered animation delay utilities */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
 
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
@@ -162,6 +221,11 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-slate-200, currentColor);
+  }
+
+  /* Smooth scroll for the whole page */
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
@@ -183,8 +247,41 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--theme-text-tertiary);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-text-secondary);
+  }
+
+  /* Focus ring - consistent across elements */
+  :focus-visible {
+    outline: 2px solid var(--theme-amber);
+    outline-offset: 2px;
+  }
 }
 
 @utility card {
   @apply relative z-10 flex h-full flex-col border border-[var(--theme-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface,#ffffff)] p-4 shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_2.5px_2px_-1px_rgba(0,0,0,0.075)] before:absolute before:inset-0 before:-z-1 before:opacity-0 hover:shadow-[0_0_0_1px_rgba(137,93,54,0.15),0_4px_8px_-2px_rgba(0,0,0,0.1)] focus:outline-hidden md:p-6;
+}
+
+/* Scroll-triggered reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }

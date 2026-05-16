@@ -1,44 +1,36 @@
 ---
 import { twMerge } from 'tailwind-merge';
-const { type, href, rel, target, variant, className, id } = Astro.props;
+const { type, href, rel, target, variant, size, className, id, loading } = Astro.props;
 
 export interface Props {
   type?: 'button' | 'submit' | 'reset';
   href?: string;
   rel?: string;
   target?: '_self' | '_blank' | '_parent' | '_top';
-  variant?: 'primary' | 'secondary' | 'tertiary';
+  variant?: 'primary' | 'secondary' | 'tertiary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
   className?: string;
   id?: string;
+  loading?: boolean;
 }
-
-/**
- * Variants: Defines predefined styling options for the 'variant' prop.
- * - primary: A gradient blue-to-amber button matching campaign CTA style.
- * - secondary: A bordered button with navy/blue accents.
- * - tertiary: A subtle semi-transparent background.
- */
 
 const variants = {
   primary:
     'bg-[var(--theme-lime)] hover:brightness-95 border border-transparent text-[var(--color-warm-text)]',
   secondary:
-    'hover:border-[var(--theme-amber)] hover:bg-[var(--theme-amber)]/10 border-[var(--theme-amber)]/50 border-2 text-[var(--theme-amber)]',
-  tertiary: 'bg-[var(--theme-amber)]/10 hover:bg-[var(--theme-amber)]/20 text-[var(--theme-amber)]',
+    'border-2 border-[var(--theme-amber)]/50 text-[var(--theme-amber)] hover:border-[var(--theme-amber)] hover:bg-[var(--theme-amber)]/10',
+  tertiary:
+    'bg-[var(--theme-amber)]/10 text-[var(--theme-amber)] hover:bg-[var(--theme-amber)]/20',
+  ghost:
+    'text-[var(--theme-text-secondary)] hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)]',
+};
+
+const sizes = {
+  sm: 'px-3 py-1.5 text-xs gap-1.5',
+  md: 'px-5 py-2.5 text-sm gap-2',
+  lg: 'px-8 py-3.5 text-base gap-2.5',
 };
 ---
-
-{
-  /*
-Button Component:
-This component dynamically renders either a `<button>` element or an `<a>` (link) element based on the provided `href` prop.
-
- - If the `href` prop is provided, an `<a>` tag is rendered to allow navigation.
- - If no `href` is provided, a `<button>` tag is rendered for performing actions and supports the `type` attribute (e.g., 'button', 'submit', or 'reset') to specify its behavior.
-
- Both types of elements share a similar structure and styling logic, with customization through the `variant`, `className`, and `id` props.
-*/
-}
 
 {
   href ? (
@@ -48,7 +40,7 @@ This component dynamically renders either a `<button>` element or an `<a>` (link
       rel={rel ? rel : undefined}
       target={target ? target : undefined}
       class={twMerge(
-        `rounded-lg px-6 py-2.5 text-center font-medium transition-colors duration-300 focus:outline-hidden ${variants[variant ?? 'primary']} ${className || ''}`
+        `inline-flex items-center justify-center rounded-lg text-center font-medium transition-all duration-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--theme-amber)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg)] active:scale-[0.97] hover:-translate-y-0.5 ${variants[variant ?? 'primary']} ${sizes[size ?? 'md']} ${className || ''}`
       )}
     >
       <slot />
@@ -57,11 +49,21 @@ This component dynamically renders either a `<button>` element or an `<a>` (link
     <button
       id={id}
       type={type || 'button'}
+      disabled={loading}
       class={twMerge(
-        `rounded-lg px-6 py-2.5 text-center font-medium transition-colors duration-300 focus:outline-hidden ${variants[variant ?? 'primary']} ${className || ''}`
+        `inline-flex items-center justify-center rounded-lg text-center font-medium transition-all duration-200 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[var(--theme-amber)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--theme-bg)] active:scale-[0.97] hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none ${variants[variant ?? 'primary']} ${sizes[size ?? 'md']} ${className || ''}`
       )}
     >
-      <slot />
+      {loading && (
+        <span class="flex items-center gap-2">
+          <svg class="h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          <slot />
+        </span>
+      )}
+      {!loading && <slot />}
     </button>
   )
 }

@@ -66,7 +66,7 @@ const icons = {
 <section id="features" class="relative bg-[var(--theme-bg)] py-20 sm:py-28">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <!-- Section header -->
-    <div class="mx-auto max-w-2xl text-center">
+    <div class="reveal mx-auto max-w-2xl text-center">
       <h2 class="text-3xl font-bold tracking-tight text-[var(--theme-text)] sm:text-4xl">
         The Platform
       </h2>
@@ -77,11 +77,13 @@ const icons = {
 
     <!-- Pillars grid -->
     <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:gap-8">
-      {platformPillars.map((pillar) => (
+      {platformPillars.map((pillar, idx) => (
         <div
-          class="group relative rounded-2xl border border-[var(--theme-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface)] p-6 transition-all hover:border-[var(--theme-amber)]/30 hover:shadow-[0_0_0_1px_var(--theme-border),0_4px_8px_-2px_rgba(0,0,0,0.1)] sm:p-8"
+          class="reveal group relative rounded-2xl border border-[var(--theme-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface)] p-6 transition-all duration-300 hover:border-[var(--theme-amber)]/30 hover:shadow-[var(--theme-card-hover-shadow)] hover:-translate-y-0.5 sm:p-8"
+          style={`animation-delay: ${idx * 150}ms`}
         >
-          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--theme-amber)]/15 to-[var(--theme-amber)]/10 text-[var(--theme-amber)] ring-1 ring-[var(--theme-amber)]/20" aria-hidden="true">
+          <!-- Icon with hover animation -->
+          <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--theme-amber)]/15 to-[var(--theme-amber)]/10 text-[var(--theme-amber)] ring-1 ring-[var(--theme-amber)]/20 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-[var(--theme-amber)]/10" aria-hidden="true">
             <span class="h-6 w-6" set:html={icons[pillar.icon as keyof typeof icons]} />
           </div>
           <h3 class="text-xl font-semibold text-[var(--theme-text)]">{pillar.title}</h3>

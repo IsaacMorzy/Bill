@@ -4,22 +4,43 @@ const campaignName = 'Bill Llia for Governor';
 const campaignSlogan = 'Service with integrity. Leadership with heart.';
 const campaignEmail = 'info@billllia.com';
 const campaignPhone = '+254 7XX XXX XXX';
+const currentYear = new Date().getFullYear();
 
 const navLinks = [
   { text: 'Home', href: '/' },
   { text: 'Platform', href: '/#features' },
   { text: 'About', href: '/about' },
   { text: 'Blog', href: '/blog' },
+  { text: 'Petition', href: '/petition' },
   { text: 'Contact', href: '/contact' },
+];
+
+const socialLinks = [
+  {
+    label: 'Facebook',
+    href: 'https://facebook.com/billllia',
+    svg: '<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
+  },
+  {
+    label: 'Twitter',
+    href: 'https://twitter.com/billllia',
+    svg: '<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+  },
+  {
+    label: 'Instagram',
+    href: 'https://instagram.com/billllia',
+    svg: '<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>',
+  },
 ];
 ---
 
 <footer class="border-t border-[var(--theme-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface-muted,#f5f0eb)]">
-  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <!-- Top section -->
-    <div class="flex flex-col items-center justify-between gap-8 sm:flex-row">
-      <div class="text-center sm:text-left">
-        <div class="flex items-center gap-2 justify-center sm:justify-start">
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <!-- Top grid -->
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Brand -->
+      <div class="reveal lg:col-span-1">
+        <div class="flex items-center gap-2">
           <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--theme-amber)] text-sm font-bold text-white">
             BL
           </div>
@@ -27,40 +48,125 @@ const navLinks = [
             {campaignName}
           </span>
         </div>
-        <p class="mt-2 text-sm text-[var(--theme-text-secondary)]">{campaignSlogan}</p>
+        <p class="mt-3 text-sm leading-relaxed text-[var(--theme-text-secondary)]">{campaignSlogan}</p>
+
+        <!-- Social links -->
+        <div class="mt-5 flex gap-3">
+          {socialLinks.map((social) => (
+            <a
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex h-9 w-9 items-center justify-center rounded-lg text-[var(--theme-text-tertiary)] transition-all hover:bg-[var(--theme-amber)]/10 hover:text-[var(--theme-amber)] hover:-translate-y-0.5"
+              aria-label={social.label}
+              set:html={social.svg}
+            />
+          ))}
+        </div>
       </div>
 
-      <div class="flex flex-wrap justify-center gap-6">
-        {navLinks.map((link) => (
-          <a
-            href={link.href}
-            class="text-sm text-[var(--theme-text-secondary)] transition-colors hover:text-[var(--theme-amber)]"
-          >
-            {link.text}
-          </a>
-        ))}
+      <!-- Quick Links -->
+      <div class="reveal delay-100">
+        <h4 class="text-sm font-semibold uppercase tracking-wider text-[var(--theme-text)]">Quick Links</h4>
+        <ul class="mt-4 space-y-3">
+          {navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-[var(--theme-text-secondary)] transition-all hover:text-[var(--theme-amber)] hover:translate-x-0.5 inline-block"
+              >
+                {link.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="reveal delay-200">
+        <h4 class="text-sm font-semibold uppercase tracking-wider text-[var(--theme-text)]">Contact</h4>
+        <ul class="mt-4 space-y-3">
+          <li>
+            <a href={`mailto:${campaignEmail}`} class="text-sm text-[var(--theme-text-secondary)] transition-all hover:text-[var(--theme-amber)]">
+              {campaignEmail}
+            </a>
+          </li>
+          <li>
+            <span class="text-sm text-[var(--theme-text-secondary)]">{campaignPhone}</span>
+          </li>
+          <li>
+            <span class="text-sm text-[var(--theme-text-secondary)]">Nairobi County, Kenya</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Newsletter / CTA -->
+      <div class="reveal delay-300">
+        <h4 class="text-sm font-semibold uppercase tracking-wider text-[var(--theme-text)]">Stay Updated</h4>
+        <p class="mt-3 text-sm text-[var(--theme-text-secondary)]">
+          Get campaign updates and news delivered to your inbox.
+        </p>
+        <a
+          href="/contact"
+          class="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--theme-lime)] px-4 py-2.5 text-sm font-semibold text-[var(--color-warm-text)] transition-all hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0"
+        >
+          Subscribe
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
       </div>
     </div>
 
     <!-- Separator -->
-    <div class="my-8 border-t border-[var(--theme-border)]" />
+    <div class="my-10 border-t border-[var(--theme-border)]" />
 
     <!-- Bottom section -->
     <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
       <div class="text-center text-sm text-[var(--theme-text-tertiary)] sm:text-left">
-        &copy; {new Date().getFullYear()} {campaignName}. All rights reserved.
+        &copy; {currentYear} {campaignName}. All rights reserved.
         <br class="sm:hidden" />
         <span class="hidden sm:inline"> &middot; </span>
         Paid for by the Bill Llia for Governor Campaign.
       </div>
-
-      <div class="flex items-center gap-4 text-sm text-[var(--theme-text-tertiary)]">
-        <a href={`mailto:${campaignEmail}`} class="transition-colors hover:text-[var(--theme-amber)]">
-          {campaignEmail}
-        </a>
-        <span class="text-[var(--theme-text-tertiary)] opacity-40">&middot;</span>
-        <span>{campaignPhone}</span>
-      </div>
     </div>
   </div>
+
+  <!-- Back to top button -->
+  <button
+    id="back-to-top"
+    class="fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--theme-amber)] text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl active:translate-y-0 opacity-0 invisible"
+    aria-label="Back to top"
+  >
+    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg>
+  </button>
 </footer>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const backToTop = document.getElementById('back-to-top');
+    if (!backToTop) return;
+
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        backToTop.classList.remove('opacity-0', 'invisible');
+        backToTop.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop.classList.add('opacity-0', 'invisible');
+        backToTop.classList.remove('opacity-100', 'visible');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    document.addEventListener('astro:before-swap', () => {
+      window.removeEventListener('scroll', handleScroll);
+    });
+  });
+</script>
