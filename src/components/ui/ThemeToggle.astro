@@ -17,9 +17,6 @@
 <script>
   const STORAGE_KEY = 'theme';
 
-  /**
-   * @param {string} theme
-   */
   function setTheme(theme = 'light') {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem(STORAGE_KEY, theme);

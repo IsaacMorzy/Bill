@@ -17,8 +17,8 @@ if (!post) {
   return Astro.redirect('/blog');
 }
 
-// The document field returns a function that resolves to the document data
-const content = await post.content();
+// Markdoc field returns { node } when resolved
+const { node: documentNode } = await post.content();
 ---
 
 <BaseLayout
@@ -70,7 +70,7 @@ const content = await post.content();
       </header>
 
       <!-- Content -->
-      <KeystaticDocument document={content} client:load />
+      <KeystaticDocument node={documentNode} client:load />
     </div>
   </article>
 </BaseLayout>

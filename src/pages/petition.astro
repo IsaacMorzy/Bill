@@ -22,15 +22,15 @@ const error = Astro.url.searchParams.get('error');
   <main class="min-h-screen bg-[var(--theme-surface-muted)] pt-24">
     <!-- Hero Section -->
     <section class="relative overflow-hidden border-b border-[var(--theme-border)]">
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent" />
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[var(--theme-blue)]/[0.08] via-transparent to-transparent" />
       <div class="relative mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8">
-        <div class="mb-6 inline-flex items-center gap-2 rounded-full bg-amber-500/10 px-4 py-1.5 text-sm font-medium text-amber-400">
+        <div class="mb-6 inline-flex items-center gap-2 rounded-full bg-[var(--theme-amber)]/10 px-4 py-1.5 text-sm font-medium text-[var(--theme-amber)]">
           <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
           </svg>
           Citizen's Petition
         </div>
-        <h1 class="bg-gradient-to-r from-blue-500 via-blue-400 to-amber-400 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl lg:text-6xl">
+        <h1 class="bg-gradient-to-r from-[var(--theme-blue)] via-[var(--theme-blue)] to-[var(--theme-amber)] bg-clip-text text-4xl font-bold text-transparent sm:text-5xl lg:text-6xl">
           We Deserve Better Leadership
         </h1>
         <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--theme-text-secondary)]">
@@ -39,7 +39,7 @@ const error = Astro.url.searchParams.get('error');
           Add your voice to the growing demand for change.
         </p>
         <p class="mt-4 text-sm text-[var(--theme-text-tertiary)]">
-          <span class="font-semibold text-amber-400/80" id="signature-count">{signatureCount.toLocaleString()}</span> signatures and counting
+          <span class="font-semibold text-[var(--theme-amber)]/80" id="signature-count">{signatureCount.toLocaleString()}</span> signatures and counting
         </p>
       </div>
     </section>
@@ -87,31 +87,31 @@ const error = Astro.url.searchParams.get('error');
         <h2 class="text-2xl font-bold text-[var(--theme-text)] sm:text-3xl">Our Demands</h2>
         <div class="mt-8 space-y-4">
           <div class="flex items-start gap-4 rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] p-4">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-sm font-bold text-blue-400">1</span>
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--theme-blue)]/20 text-sm font-bold text-[var(--theme-blue)]">1</span>
             <div>
               <p class="text-[var(--theme-text)]">Quality healthcare that reaches every part of the county, not just the city centre</p>
             </div>
           </div>
           <div class="flex items-start gap-4 rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] p-4">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-sm font-bold text-blue-400">2</span>
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--theme-blue)]/20 text-sm font-bold text-[var(--theme-blue)]">2</span>
             <div>
               <p class="text-[var(--theme-text)]">Real youth employment through skills training and enterprise support</p>
             </div>
           </div>
           <div class="flex items-start gap-4 rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] p-4">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-sm font-bold text-blue-400">3</span>
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--theme-blue)]/20 text-sm font-bold text-[var(--theme-blue)]">3</span>
             <div>
               <p class="text-[var(--theme-text)]">Clean water access for all — no more broken infrastructure and empty promises</p>
             </div>
           </div>
           <div class="flex items-start gap-4 rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] p-4">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-sm font-bold text-blue-400">4</span>
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--theme-blue)]/20 text-sm font-bold text-[var(--theme-blue)]">4</span>
             <div>
               <p class="text-[var(--theme-text)]">Transparent use of county resources — every shilling accounted for</p>
             </div>
           </div>
           <div class="flex items-start gap-4 rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] p-4">
-            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-600/20 text-sm font-bold text-blue-400">5</span>
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--theme-blue)]/20 text-sm font-bold text-[var(--theme-blue)]">5</span>
             <div>
               <p class="text-[var(--theme-text)]">Quality education infrastructure and vocational training centres</p>
             </div>
@@ -188,7 +188,7 @@ const error = Astro.url.searchParams.get('error');
                 id="name"
                 name="name"
                 required
-                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-[var(--theme-amber)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--theme-amber)]/20"
                 placeholder="e.g., Jane Doe"
               />
             </div>
@@ -199,7 +199,7 @@ const error = Astro.url.searchParams.get('error');
                 id="email"
                 name="email"
                 required
-                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-[var(--theme-amber)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--theme-amber)]/20"
                 placeholder="e.g., jane@example.com"
               />
             </div>
@@ -209,7 +209,7 @@ const error = Astro.url.searchParams.get('error');
                 id="ward"
                 name="ward"
                 required
-                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] transition-colors focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] transition-colors focus:border-[var(--theme-amber)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--theme-amber)]/20"
               >
                 <option value="" disabled selected class="bg-[var(--theme-surface-muted)]">Select your constituency</option>
                 <option value="constituency-1" class="bg-[var(--theme-surface-muted)]">Constituency 1</option>
@@ -226,13 +226,13 @@ const error = Astro.url.searchParams.get('error');
                 id="message"
                 name="message"
                 rows="3"
-                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-amber-500/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                class="mt-1.5 block w-full rounded-lg border border-[var(--theme-input-border)] bg-[var(--theme-input-bg)] px-4 py-2.5 text-sm text-[var(--theme-text)] placeholder-[var(--theme-input-placeholder)] transition-colors focus:border-[var(--theme-amber)]/50 focus:outline-none focus:ring-2 focus:ring-[var(--theme-amber)]/20"
                 placeholder="Share your reason..."
               ></textarea>
             </div>
             <button
               type="submit"
-              class="w-full rounded-lg bg-gradient-to-r from-blue-600 to-amber-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:from-blue-500 hover:to-amber-500"
+              class="w-full rounded-lg bg-gradient-to-r from-[var(--theme-blue)] to-[var(--theme-amber)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[var(--theme-blue)]/20 transition-all hover:opacity-90"
             >
               Sign the Petition
             </button>
@@ -256,7 +256,7 @@ const error = Astro.url.searchParams.get('error');
             href={`https://wa.me/?text=${encodeURIComponent('Sign the petition to support Dr. Bill Llia for Governor in Nairobi County: https://bill.vercel.app/petition')}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="rounded-lg border border-[var(--theme-input-border)] px-5 py-2.5 text-sm font-medium text-[var(--theme-text)] transition-colors hover:bg-blue-500/10"
+            class="rounded-lg border border-[var(--theme-input-border)] px-5 py-2.5 text-sm font-medium text-[var(--theme-text)] transition-colors hover:bg-[var(--theme-blue)]/10"
           >
             Share on WhatsApp
           </a>
@@ -264,13 +264,13 @@ const error = Astro.url.searchParams.get('error');
             href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://bill.vercel.app/petition')}`}
             target="_blank"
             rel="noopener noreferrer"
-            class="rounded-lg border border-[var(--theme-input-border)] px-5 py-2.5 text-sm font-medium text-[var(--theme-text)] transition-colors hover:bg-blue-500/10"
+            class="rounded-lg border border-[var(--theme-input-border)] px-5 py-2.5 text-sm font-medium text-[var(--theme-text)] transition-colors hover:bg-[var(--theme-blue)]/10"
           >
             Share on Facebook
           </a>
           <button
             id="copy-link-btn"
-            class="rounded-lg border border-[var(--theme-input-border)] px-5 py-2.5 text-sm font-medium text-[var(--theme-text)] transition-colors hover:bg-blue-500/10"
+            class="rounded-lg border border-[var(--theme-input-border)] px-5 py-2.5 text-sm font-medium text-[var(--theme-text)] transition-colors hover:bg-[var(--theme-blue)]/10"
           >
             Copy Link
           </button>
@@ -285,16 +285,8 @@ const error = Astro.url.searchParams.get('error');
                 copyBtn.textContent = 'Copied!';
                 setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
               } catch {
-                // Fallback for older browsers
-                const textarea = document.createElement('textarea');
-                textarea.value = window.location.href;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                const originalText = copyBtn.textContent;
-                copyBtn.textContent = 'Copied!';
-                setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+                // Clipboard API unavailable — show a prompt instead
+                prompt('Copy this link manually:', window.location.href);
               }
             });
           }

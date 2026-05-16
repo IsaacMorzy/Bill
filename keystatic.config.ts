@@ -26,10 +26,8 @@ export default config({
           label: 'Icon Name',
           description: 'Lucide icon name (e.g., "scale", "heart", "globe")',
         }),
-        content: fields.document({
+        content: fields.markdoc({
           label: 'Description',
-          formatting: true,
-          links: true,
         }),
       },
     }),
@@ -51,11 +49,8 @@ export default config({
           label: 'Tags',
           itemLabel: (props) => props.value,
         }),
-        content: fields.document({
+        content: fields.markdoc({
           label: 'Content',
-          formatting: true,
-          links: true,
-          images: true,
         }),
       },
     }),
@@ -80,11 +75,8 @@ export default config({
           ],
           defaultValue: 'policy',
         }),
-        content: fields.document({
+        content: fields.markdoc({
           label: 'Content',
-          formatting: true,
-          links: true,
-          images: true,
         }),
       },
     }),
@@ -100,11 +92,8 @@ export default config({
         source: fields.text({ label: 'Source / Outlet' }),
         sourceUrl: fields.url({ label: 'Original Link' }),
         excerpt: fields.text({ label: 'Excerpt', multiline: true }),
-        content: fields.document({
+        content: fields.markdoc({
           label: 'Content',
-          formatting: true,
-          links: true,
-          images: true,
         }),
       },
     }),

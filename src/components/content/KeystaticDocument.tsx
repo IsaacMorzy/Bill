@@ -1,24 +1,27 @@
-import { DocumentRenderer, type DocumentRendererProps } from '@keystatic/core/renderer';
+import Markdoc from '@markdoc/markdoc';
+import type { Node } from '@markdoc/markdoc';
+import React from 'react';
 
 /**
- * Renders a Keystatic document using the built-in DocumentRenderer.
- * Wraps the document in a div with Tailwind typography prose classes for styling.
+ * Renders a Markdoc document node using @markdoc/markdoc.
+ * Wraps the rendered React tree in a div with Tailwind typography prose classes.
  */
 export default function KeystaticDocument({
-  document,
-  renderers,
+  node,
 }: {
-  document: DocumentRendererProps['document'];
-  renderers?: DocumentRendererProps['renderers'];
+  node: Node;
 }) {
+  const renderable = Markdoc.transform(node);
+  const content = Markdoc.renderers.react(renderable, React);
+
   return (
-    <div className="prose prose-lg prose-amber max-w-none
-      prose-headings:font-instrument-serif prose-headings:text-amber-earth
-      prose-a:text-amber-earth prose-a:no-underline hover:prose-a:underline
-      prose-strong:text-[#101010] prose-code:text-amber-earth
+    <div className="prose prose-lg max-w-none
+      prose-headings:font-instrument-serif
+      prose-a:text-[var(--theme-amber)] prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-[var(--theme-text)]
       prose-img:rounded-xl prose-img:shadow-lg
     ">
-      <DocumentRenderer document={document} renderers={renderers} />
+      {content}
     </div>
   );
 }
