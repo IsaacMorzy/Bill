@@ -1,0 +1,76 @@
+---
+import BaseLayout from '@layout/BaseLayout.astro';
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../../keystatic.config';
+import KeystaticDocument from '../../components/content/KeystaticDocument';
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/blog');
+}
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const post = await reader.collections.posts.readOrThrow(slug);
+
+if (!post) {
+  return Astro.redirect('/blog');
+}
+
+// The document field returns a function that resolves to the document data
+const content = await post.content();
+---
+
+<BaseLayout
+  seo={{
+    title: `${post.title} — Bill Llia for Governor`,
+    description: post.excerpt ?? `Read Bill Llia's latest campaign update on ${post.title}`,
+  }}
+>
+  <article class="mx-auto max-w-7xl px-4 pt-28 pb-20 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <!-- Back link -->
+      <a
+        href="/blog"
+        class="mb-8 inline-flex items-center gap-1 text-sm font-medium text-[var(--theme-text-secondary)] transition-colors hover:text-[var(--theme-amber)]"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Blog
+      </a>
+
+      <!-- Header -->
+      <header class="mb-12">
+        <h1 class="font-instrument-serif text-3xl font-bold text-[var(--theme-amber)] sm:text-4xl lg:text-5xl">
+          {post.title}
+        </h1>
+
+        <div class="mt-4 flex flex-wrap items-center gap-4 text-sm text-[var(--theme-text-tertiary,#999)]">
+          {post.publishedDate && (
+            <time datetime={post.publishedDate}>
+              {new Date(post.publishedDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </time>
+          )}
+
+          {post.tags && post.tags.length > 0 && (
+            <div class="flex flex-wrap gap-2">
+              {post.tags.map((tag: string) => (
+                <span class="rounded-full bg-[var(--theme-amber)]/10 px-3 py-1 text-xs font-medium text-[var(--theme-amber)]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+
+      <!-- Content -->
+      <KeystaticDocument document={content} client:load />
+    </div>
+  </article>
+</BaseLayout>

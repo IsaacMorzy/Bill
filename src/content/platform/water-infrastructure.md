@@ -1,0 +1,15 @@
+---
+title: Water and Infrastructure
+order: 4
+sectionType: platform
+---
+
+Clean water is not a luxury — it is a basic human right. Yet too many communities in Nairobi County still walk miles for water that isn't safe to drink.
+
+Bill Llia's infrastructure plan is straightforward: prioritize projects that have the greatest impact on daily life, and hold contractors accountable for delivering quality work on time and on budget.
+
+**Water:** Bill will accelerate borehole and water pan construction in underserved wards. He will work with the national government and development partners to rehabilitate existing water supply systems and ensure they are properly maintained.
+
+**Roads:** Good roads connect people to markets, schools, and health facilities. Bill will establish a transparent road maintenance fund with community oversight committees to ensure every shilling is spent where it matters most.
+
+**Street lighting:** Market centers and public spaces in every ward will get solar-powered street lighting — improving security and enabling evening economic activity.

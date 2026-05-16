@@ -1,0 +1,13 @@
+---
+title: Economic Empowerment
+order: 3
+sectionType: platform
+---
+
+A thriving local economy starts with opportunity — not handouts. Bill Llia's economic agenda is built on three pillars: supporting small businesses, empowering farmers, and creating jobs for young people.
+
+**Small business support:** We will establish a county enterprise fund that provides affordable credit to small businesses and cooperatives. We will streamline business permit processes and create market days that connect local producers directly with buyers.
+
+**Farmer empowerment:** Nairobi County's farmers need access to quality inputs, reliable markets, and fair prices. Bill will invest in aggregation centers, cold storage facilities, and market infrastructure so that farmers get the value they deserve for their produce.
+
+**Youth employment:** We will partner with technical and vocational institutions to create skills training programs that lead directly to jobs. Young people will have access to apprenticeship placements, startup grants, and mentorship from established business leaders.

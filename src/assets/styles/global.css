@@ -9,7 +9,7 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-  /* https://tailwindcss.com/docs/colors#customizing-your-colors */
+  /* https://tailwindcss.com/docs/colors#customizing-your-theme */
   --color-*: initial;
   --color-transparent: transparent;
   --color-current: currentColor;
@@ -29,24 +29,114 @@
   --color-slate-900: oklch(0.208 0.042 265.755);
   --color-slate-950: oklch(0.129 0.042 264.695);
 
-  --color-teal-50: oklch(99.48% 0.0032 197.11);
-  --color-teal-100: oklch(98.28% 0.0074 197.04);
-  --color-teal-200: oklch(96.36% 0.0179 196.86);
-  --color-teal-300: oklch(93.55% 0.0283 196.68);
-  --color-teal-400: oklch(89.79% 0.0396 196.47);
-  --color-teal-500: oklch(84.99% 0.0526 196.2);
-  --color-teal-600: oklch(78.05% 0.0652 195.9);
-  --color-teal-700: oklch(69.85% 0.0817 195.44);
-  --color-teal-800: oklch(59.53% 0.1 194.8);
-  --color-teal-900: oklch(54.08% 0.0908 194.8);
-  --color-teal-950: oklch(32.68% 0.047 195.1);
+  --color-brown-50: oklch(0.967 0.015 60);
+  --color-brown-100: oklch(0.93 0.03 60);
+  --color-brown-200: oklch(0.87 0.05 58);
+  --color-brown-300: oklch(0.78 0.07 56);
+  --color-brown-400: oklch(0.67 0.09 54);
+  --color-brown-500: oklch(0.55 0.1 52);
+  --color-brown-600: oklch(0.44 0.09 50);
+  --color-brown-700: oklch(0.35 0.08 48);
+  --color-brown-800: oklch(0.27 0.06 46);
+  --color-brown-900: oklch(0.2 0.04 44);
+  --color-brown-950: oklch(0.14 0.03 42);
+
+  --color-amber-50: oklch(0.987 0.022 95.277);
+  --color-amber-100: oklch(0.962 0.059 95.617);
+  --color-amber-200: oklch(0.924 0.12 95.746);
+  --color-amber-300: oklch(0.879 0.169 91.605);
+  --color-amber-400: oklch(0.828 0.189 84.429);
+  --color-amber-500: oklch(0.769 0.188 70.08);
+  --color-amber-600: oklch(0.666 0.179 58.318);
+  --color-amber-700: oklch(0.555 0.163 48.998);
+  --color-amber-800: oklch(0.473 0.137 46.238);
+  --color-amber-900: oklch(0.414 0.112 45.904);
+  --color-amber-950: oklch(0.279 0.077 45.635);
+
+  /* Rog.ie-inspired warm palette */
+  --color-warm-bg: #ededed;
+  --color-amber-earth: rgb(137, 93, 54);
+  --color-lime-accent: #b9fd8e;
+  --color-peach: rgb(254, 209, 150);
+  --color-amber-glow: rgba(172, 83, 2, 0.3);
+  --color-warm-text: #101010;
+  --color-warm-text-secondary: #666666;
+  --color-warm-text-tertiary: #999999;
 }
+
+/* Rog.ie-inspired light theme (default) */
+:root,
+[data-theme='light'] {
+  --theme-bg: #ededed;         /* warm light grey */
+  --theme-surface: #ffffff;    /* white cards */
+  --theme-surface-muted: #f5f0eb; /* warm cream */
+  --theme-text: #101010;       /* near-black */
+  --theme-text-secondary: #666;
+  --theme-text-tertiary: #999;
+  --theme-border: rgba(0, 0, 0, 0.06);
+  --theme-navbar-bg: rgba(255, 255, 255, 0.8);
+  --theme-navbar-border: rgba(0, 0, 0, 0.06);
+  --theme-input-bg: #ffffff;
+  --theme-input-border: rgba(0, 0, 0, 0.12);
+  --theme-input-text: #101010;
+  --theme-input-placeholder: #999;
+  --theme-amber: rgb(137, 93, 54);
+  --theme-amber-glow: rgba(172, 83, 2, 0.3);
+  --theme-lime: #b9fd8e;
+}
+
+/* Warm dark theme */
+[data-theme='dark'] {
+  --theme-bg: #1c1c1c;
+  --theme-surface: #2a2a2a;
+  --theme-surface-muted: #222222;
+  --theme-text: #e8e6e1;
+  --theme-text-secondary: #999;
+  --theme-text-tertiary: #666;
+  --theme-border: rgba(255, 255, 255, 0.08);
+  --theme-navbar-bg: rgba(28, 28, 28, 0.9);
+  --theme-navbar-border: rgba(255, 255, 255, 0.06);
+  --theme-input-bg: #333;
+  --theme-input-border: rgba(255, 255, 255, 0.15);
+  --theme-input-text: #e8e6e1;
+  --theme-input-placeholder: #666;
+  --theme-amber: rgb(200, 150, 90);
+  --theme-amber-glow: rgba(200, 150, 90, 0.3);
+  --theme-lime: #b9fd8e;
+}
+
+/* Respect system preference when user hasn't explicitly toggled */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --theme-bg: #1c1c1c;
+    --theme-surface: #2a2a2a;
+    --theme-surface-muted: #222222;
+    --theme-text: #e8e6e1;
+    --theme-text-secondary: #999;
+    --theme-text-tertiary: #666;
+    --theme-border: rgba(255, 255, 255, 0.08);
+    --theme-navbar-bg: rgba(28, 28, 28, 0.9);
+    --theme-navbar-border: rgba(255, 255, 255, 0.06);
+    --theme-input-bg: #333;
+    --theme-input-border: rgba(255, 255, 255, 0.15);
+    --theme-input-text: #e8e6e1;
+    --theme-input-placeholder: #666;
+    --theme-amber: rgb(200, 150, 90);
+    --theme-amber-glow: rgba(200, 150, 90, 0.3);
+    --theme-lime: #b9fd8e;
+  }
+}
+
+/* Make Tailwind's `dark:` variant respond to our data-theme toggle */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
   --animate-scroll: scroll var(--duration, 40s) var(--direction, forwards)
     linear infinite;
 
   /* https://tailwindcss.com/docs/font-family#customizing-your-theme */
+  --font-instrument-serif: 'Instrument Serif', serif;
+  --font-inter: 'Inter', sans-serif;
   --font-dm-sans: 'DM Sans', sans-serif;
   --font-work-sans: 'Work Sans', sans-serif;
 
@@ -75,7 +165,10 @@
   }
 
   body {
-    @apply font-work-sans;
+    @apply font-inter;
+    color: var(--theme-text);
+    background-color: var(--theme-bg);
+    transition: color 0.2s ease, background-color 0.2s ease;
   }
 
   h1,
@@ -83,7 +176,7 @@
   h3,
   h4,
   .dm-sans {
-    @apply font-dm-sans;
+    @apply font-instrument-serif;
   }
 
   button:not(:disabled),
@@ -93,5 +186,5 @@
 }
 
 @utility card {
-  @apply relative z-10 flex h-full flex-col border-dashed border-slate-300 p-4 before:absolute before:inset-0 before:-z-1 before:bg-linear-to-b/oklch before:via-80% before:opacity-0 hover:before:from-transparent hover:before:via-transparent hover:before:to-teal-500/20 hover:before:opacity-100 focus:outline-hidden focus:before:from-transparent focus:before:via-transparent focus:before:to-teal-500/20 focus:before:opacity-100 md:p-6;
+  @apply relative z-10 flex h-full flex-col border border-[var(--theme-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface,#ffffff)] p-4 shadow-[0_0_0_1px_rgba(0,0,0,0.05),0_2.5px_2px_-1px_rgba(0,0,0,0.075)] before:absolute before:inset-0 before:-z-1 before:opacity-0 hover:shadow-[0_0_0_1px_rgba(137,93,54,0.15),0_4px_8px_-2px_rgba(0,0,0,0.1)] focus:outline-hidden md:p-6;
 }

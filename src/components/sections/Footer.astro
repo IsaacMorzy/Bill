@@ -1,88 +1,66 @@
 ---
-import FooterForm from '@ui/forms/FooterForm.astro';
-import ContactInfo from '@common/ContactInfo.astro';
+// Campaign Information
+const campaignName = 'Bill Llia for Governor';
+const campaignSlogan = 'Service with integrity. Leadership with heart.';
+const campaignEmail = 'info@billllia.com';
+const campaignPhone = '+254 7XX XXX XXX';
 
-// Props for customization
-const companyName = 'DataNova Analytics Inc.';
-const companyDescription =
-  'DataNova Analytics Inc. is a leading business intelligence and analytics software company founded in 2018, with offices in Boston and Seattle.';
-
-// Contact information for the company
-const contactDetails = {
-  address: 'Seattle, WA, 98104',
-  phone: '1 (833) 328-2669',
-  email: 'info@datanova.com',
-  website: 'www.datanova.com',
-};
-
-// Dynamic date for copyright display
-const copyrightYear = new Date().getFullYear();
-
-// Developer or team behind the website
-const craftedBy = { name: 'gulamoff', url: 'https://www.gulamoff.dev/' };
-
-// Trademark notice
-const trademarkNotice =
-  'Microsoft&reg; and Excel&reg; are registered trademarks or trademarks of Microsoft Corporation';
+const navLinks = [
+  { text: 'Home', href: '/' },
+  { text: 'Platform', href: '/#features' },
+  { text: 'About', href: '/about' },
+  { text: 'Blog', href: '/blog' },
+  { text: 'Contact', href: '/contact' },
+];
 ---
 
-<footer
-  class="mt-auto w-full bg-linear-to-t/oklch from-teal-200 via-transparent to-white pb-10"
->
-  <div class="mx-auto mt-auto w-full max-w-[85rem] px-4 pb-10 sm:px-6 lg:px-8">
-    <hr class="mb-10 border-slate-200" />
-
-    <div class="grid grid-cols-2 gap-6 md:grid-cols-5">
-      {/* Company Information */}
-      <div class="col-span-full self-center xl:col-span-2">
-        <a
-          href="/"
-          class="flex-none text-xl font-semibold text-slate-700 uppercase focus:opacity-80 focus:outline-hidden"
-          aria-label="{companyName} Homepage"
-        >
-          {companyName}
-        </a>
-        <p class="mt-5 text-pretty text-slate-600 lg:w-5/12 xl:w-10/12">
-          {companyDescription}
-        </p>
+<footer class="border-t border-[var(--theme-border,rgba(0,0,0,0.06))] bg-[var(--theme-surface-muted,#f5f0eb)]">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <!-- Top section -->
+    <div class="flex flex-col items-center justify-between gap-8 sm:flex-row">
+      <div class="text-center sm:text-left">
+        <div class="flex items-center gap-2 justify-center sm:justify-start">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--theme-amber)] text-sm font-bold text-white">
+            BL
+          </div>
+          <span class="text-lg font-bold text-[var(--theme-amber)]">
+            {campaignName}
+          </span>
+        </div>
+        <p class="mt-2 text-sm text-[var(--theme-text-secondary)]">{campaignSlogan}</p>
       </div>
 
-      {/* Contact Information Section */}
-      <div class="col-span-1 md:col-span-2 xl:col-span-1 xl:col-start-3">
-        <ContactInfo {...contactDetails} />
-      </div>
-
-      {/* Email Subscription Form */}
-      <div class="col-span-2 md:col-span-3 xl:col-span-2">
-        <h3 class="font-semibold text-slate-700">More information?</h3>
-        <FooterForm />
+      <div class="flex flex-wrap justify-center gap-6">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-sm text-[var(--theme-text-secondary)] transition-colors hover:text-[var(--theme-amber)]"
+          >
+            {link.text}
+          </a>
+        ))}
       </div>
     </div>
 
-    {/* Divider before footer's bottom section */}
-    <hr class="mt-10 mb-5 border-slate-200" />
+    <!-- Separator -->
+    <div class="my-8 border-t border-[var(--theme-border)]" />
 
-    <div
-      class="grid gap-y-2 sm:flex sm:items-center sm:justify-between sm:gap-y-0"
-    >
-      {/* Copyright and Crafted By Section */}
-      <p class="text-sm text-slate-400/50">
-        &copy; 2018-{copyrightYear}
-        {companyName} Crafted by
-        <a
-          href={craftedBy.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="font-medium underline underline-offset-2 ring-slate-400 outline-hidden transition duration-300 hover:text-slate-400 hover:decoration-dashed focus:outline-hidden focus-visible:ring-3"
-        >
-          {craftedBy.name}
+    <!-- Bottom section -->
+    <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+      <div class="text-center text-sm text-[var(--theme-text-tertiary)] sm:text-left">
+        &copy; {new Date().getFullYear()} {campaignName}. All rights reserved.
+        <br class="sm:hidden" />
+        <span class="hidden sm:inline"> &middot; </span>
+        Paid for by the Bill Llia for Governor Campaign.
+      </div>
+
+      <div class="flex items-center gap-4 text-sm text-[var(--theme-text-tertiary)]">
+        <a href={`mailto:${campaignEmail}`} class="transition-colors hover:text-[var(--theme-amber)]">
+          {campaignEmail}
         </a>
-      </p>
-
-      {/* Trademark Notice */}
-      <p class="text-sm text-slate-400/50">
-        <Fragment set:html={trademarkNotice} />
-      </p>
+        <span class="text-[var(--theme-text-tertiary)] opacity-40">&middot;</span>
+        <span>{campaignPhone}</span>
+      </div>
     </div>
   </div>
 </footer>

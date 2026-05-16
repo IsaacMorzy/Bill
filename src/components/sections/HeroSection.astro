@@ -1,18 +1,69 @@
 ---
-import AnnouncementBanner from '@common/AnnouncementBanner.astro';
-import HeroContent from '@common/HeroContent.astro';
-import HeroVideo from '@common/HeroVideo.astro';
+const title = 'The Leader Nairobi County Deserves';
+const subtitle =
+  'Bill Llia is running for Governor to bring accessible healthcare, quality education, and sustainable economic growth to Nairobi County.';
+
+const stats = [
+  { label: 'Years Serving Community', value: '12+' },
+  { label: 'Health Centers Established', value: '4' },
+  { label: 'Youth Empowered', value: '500+' },
+  { label: 'Years in Public Service', value: '12+' },
+];
 ---
 
-<section class="bg-linear-to-b/oklch from-teal-200 via-transparent to-white">
-  <div class="mx-auto max-w-[85rem] space-y-8 px-4 pt-48 pb-12 sm:px-6 lg:px-8">
-    {/* Announcement Banner */}
-    <AnnouncementBanner />
+<section class="relative overflow-hidden bg-[var(--theme-surface-muted)] pt-28 pb-20 sm:pb-28">
+  <!-- Background gradient -->
+  <div class="absolute inset-0 bg-gradient-to-br from-[var(--theme-amber)]/5 via-transparent to-[var(--theme-amber)]/10" />
 
-    {/* Hero Content */}
-    <HeroContent />
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-4xl text-center">
+      <!-- Tagline -->
+      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--theme-amber)]/20 bg-[var(--theme-amber)]/10 px-4 py-1.5">
+        <span class="h-1.5 w-1.5 rounded-full bg-[var(--theme-amber)] animate-pulse" />
+        <span class="text-xs font-medium tracking-wider text-[var(--theme-amber)] uppercase">2026 Campaign</span>
+      </div>
 
-    {/* Hero Visual */}
-    <HeroVideo />
+      <!-- Headline -->
+      <h1 class="text-4xl font-bold leading-tight tracking-tight text-[var(--theme-text)] sm:text-5xl md:text-6xl lg:text-7xl">
+        {title.split('Nairobi County Deserves')[0]}
+        <span class="block bg-gradient-to-r from-[var(--theme-amber)] via-amber-500 to-amber-400 bg-clip-text text-transparent">
+          Nairobi County Deserves
+        </span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--theme-text-secondary)] sm:text-xl">
+        {subtitle}
+      </p>
+
+      <!-- CTAs -->
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 rounded-xl bg-[var(--theme-lime)] px-8 py-3.5 text-base font-semibold text-[var(--color-warm-text)] transition-all hover:brightness-95 hover:-translate-y-0.5"
+        >
+          Join the Movement
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+        <a
+          href="/about"
+          class="inline-flex items-center gap-2 rounded-xl border border-[var(--theme-amber)]/30 px-8 py-3.5 text-base font-semibold text-[var(--theme-amber)] transition-all hover:bg-[var(--theme-amber)]/10"
+        >
+          Learn About Bill
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-16 grid grid-cols-2 gap-6 border-t border-[var(--theme-amber)]/20 pt-12 sm:grid-cols-4">
+        {stats.map((stat) => (
+          <div class="text-center">
+            <div class="text-2xl font-bold text-[var(--theme-text)] sm:text-3xl">{stat.value}</div>
+            <div class="mt-1 text-sm text-[var(--theme-text-secondary)]">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
   </div>
 </section>

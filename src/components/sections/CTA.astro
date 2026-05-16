@@ -1,30 +1,48 @@
 ---
-import Button from '@ui/Button.astro';
-
-// Content for the section title and subtitle
-const title =
-  'Transform your business today. <br /> Get started with <span class="font-medium text-teal-700">Data</span><span class="font-light text-slate-400">Nova</span>.';
-const subTitle =
-  "Begin your free trial and discover how DataNova's powerful analytics platform can revolutionize your data-driven decision making.";
-
-// Call-to-action configuration for the primary button
-const primaryCTA = { text: 'Start Free Trial', href: '#' };
+const title = 'The Change Starts With You';
+const description =
+  'This campaign is powered by people who believe in a better Nairobi County. Whether you can volunteer your time, contribute ideas, or help spread the word — every hand makes a difference.';
+const primaryCTA = { text: 'Volunteer With Us', href: '/contact' };
+const secondaryCTA = { text: 'Learn More About Bill', href: '/about' };
 ---
 
-<section
-  class="mx-auto max-w-[85rem] px-4 py-10 sm:px-6 md:py-14 lg:px-8 lg:py-20"
->
-  <div class="mx-auto mb-10 max-w-3xl text-center lg:mb-14">
-    <h2 class="text-4xl text-balance text-slate-800 sm:text-5xl">
-      <Fragment set:html={title} />
-    </h2>
-    <p class="text-lg\/8 mt-5 text-pretty text-slate-600">
-      {subTitle}
-    </p>
-    <Button
-      href={primaryCTA.href}
-      variant="primary"
-      className="mt-7 inline-flex border-none px-3.5!">{primaryCTA.text}</Button
-    >
+<section class="relative overflow-hidden bg-[var(--theme-surface-muted)] py-20 sm:py-28">
+  <!-- Background -->
+  <div class="absolute inset-0 bg-gradient-to-br from-[var(--theme-amber)]/5 via-transparent to-[var(--theme-amber)]/10" />
+
+  <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <!-- Icon -->
+      <div class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--theme-lime)]/20 to-[var(--theme-amber)]/10 text-[var(--theme-lime)] ring-1 ring-[var(--theme-lime)]/30">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+      </div>
+
+      <h2 class="text-3xl font-bold tracking-tight text-[var(--theme-text)] sm:text-4xl">
+        {title}
+      </h2>
+      <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-[var(--theme-text-secondary)]">
+        {description}
+      </p>
+
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a
+          href={primaryCTA.href}
+          class="inline-flex items-center gap-2 rounded-xl bg-[var(--theme-lime)] px-8 py-3.5 text-base font-semibold text-[var(--color-warm-text)] transition-all hover:brightness-95 hover:-translate-y-0.5"
+        >
+          {primaryCTA.text}
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+        <a
+          href={secondaryCTA.href}
+          class="inline-flex items-center gap-2 rounded-xl border border-[var(--theme-amber)]/30 px-8 py-3.5 text-base font-semibold text-[var(--theme-amber)] transition-all hover:bg-[var(--theme-amber)]/10"
+        >
+          {secondaryCTA.text}
+        </a>
+      </div>
+    </div>
   </div>
 </section>

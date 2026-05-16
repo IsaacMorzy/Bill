@@ -14,17 +14,17 @@ export interface Props {
 
 /**
  * Variants: Defines predefined styling options for the 'variant' prop.
- * - primary: A solid teal button with white text and hover/active effects.
- * - secondary: A bordered button with teal and slate accents with hover effects.
- * - tertiary: A soft teal background with hover effects.
+ * - primary: A gradient blue-to-amber button matching campaign CTA style.
+ * - secondary: A bordered button with navy/blue accents.
+ * - tertiary: A subtle semi-transparent background.
  */
 
 const variants = {
   primary:
-    'bg-teal-800 hover:bg-teal-800/80 focus:bg-teal-800/80 border border-transparent text-white',
+    'bg-[var(--theme-lime)] hover:brightness-95 border border-transparent text-[var(--color-warm-text)]',
   secondary:
-    'hover:border-teal-700 hover:bg-teal-700 border-teal-800 border-2 text-slate-800 hover:text-white',
-  tertiary: 'bg-teal-50 hover:bg-teal-50/80',
+    'hover:border-[var(--theme-amber)] hover:bg-[var(--theme-amber)]/10 border-[var(--theme-amber)]/50 border-2 text-[var(--theme-amber)]',
+  tertiary: 'bg-[var(--theme-amber)]/10 hover:bg-[var(--theme-amber)]/20 text-[var(--theme-amber)]',
 };
 ---
 
