@@ -1,0 +1,68 @@
+---
+interface Post {
+  slug: string;
+  title: string;
+  publishedDate: string | null;
+  excerpt: string | null;
+}
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section class="bg-[var(--theme-surface-muted)] py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="reveal mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-[var(--theme-text)] sm:text-4xl">Latest Updates</h2>
+      <p class="mt-4 text-lg leading-relaxed text-[var(--theme-text-secondary)]">News and insights from the campaign trail</p>
+    </div>
+
+    {
+      posts.length > 0 ? (
+        <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="card group transition-all duration-200 hover:-translate-y-1"
+            >
+              <div class="flex flex-1 flex-col gap-3">
+                {post.publishedDate && (
+                  <time class="text-sm text-[var(--theme-text-tertiary)]" datetime={post.publishedDate}>
+                    {new Date(post.publishedDate).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                )}
+
+                <h2 class="font-instrument-serif text-xl font-bold text-[var(--theme-text)] transition-colors group-hover:text-[var(--theme-amber)]">
+                  {post.title}
+                </h2>
+
+                {post.excerpt && (
+                  <p class="text-sm leading-relaxed text-[var(--theme-text-secondary)] line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                )}
+              </div>
+
+              <div class="mt-4 flex items-center gap-1 text-sm font-medium text-[var(--theme-amber)]">
+                Read more
+                <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="mt-16 text-center">
+          <p class="text-[var(--theme-text-secondary)] text-lg">No posts yet. Check back soon for campaign updates.</p>
+        </div>
+      )
+    }
+  </div>
+</section>

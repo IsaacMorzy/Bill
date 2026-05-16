@@ -5,11 +5,38 @@ import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
 import Hero from '@sections/HeroSection.astro';
 import FeatureShowcase from '@sections/FeatureShowcase.astro';
+import DemandsShowcase from '@sections/DemandsShowcase.astro';
+import BlogPreview from '@sections/BlogPreview.astro';
+import CTA from '@sections/CTA.astro';
 
 const reader = createReader(process.cwd(), keystaticConfig);
 const settings = await reader.collections.settings.readOrThrow('site-settings');
 
 const platformEntries = (await reader.collections.platform.all()) ?? [];
+
+const rawDemands = (await reader.collections.demands.all()) ?? [];
+const demands = rawDemands
+  .map((d) => d.entry)
+  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
+  .map((d) => ({
+    title: d.title,
+    order: d.order ?? 0,
+  }));
+
+const rawPosts = (await reader.collections.posts.all()) ?? [];
+const posts = rawPosts
+  .sort((a, b) => {
+    const dateA = a.entry.publishedDate ? new Date(a.entry.publishedDate).getTime() : 0;
+    const dateB = b.entry.publishedDate ? new Date(b.entry.publishedDate).getTime() : 0;
+    return dateB - dateA;
+  })
+  .slice(0, 3)
+  .map((p) => ({
+    slug: p.slug,
+    title: p.entry.title,
+    publishedDate: p.entry.publishedDate ?? null,
+    excerpt: p.entry.excerpt ?? null,
+  }));
 
 const pillars = platformEntries
   .map((item) => item.entry)
@@ -45,4 +72,18 @@ const heroStats = Array.isArray(rawStats) ? rawStats : [];
     }))}
   />
   <FeatureShowcase {pillars} />
+  <DemandsShowcase {demands} />
+  <BlogPreview {posts} />
+  <CTA
+    title={settings.ctaTitle ?? ''}
+    description={settings.ctaDescription ?? ''}
+    primaryCTA={{
+      text: settings.ctaPrimaryText ?? '',
+      href: settings.ctaPrimaryHref ?? '',
+    }}
+    secondaryCTA={{
+      text: settings.ctaSecondaryText ?? '',
+      href: settings.ctaSecondaryHref ?? '',
+    }}
+  />
 </BaseLayout>

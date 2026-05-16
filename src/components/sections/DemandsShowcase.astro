@@ -1,0 +1,46 @@
+---
+interface Demand {
+  title: string;
+  order: number;
+}
+interface Props {
+  demands: Demand[];
+}
+
+const { demands } = Astro.props;
+---
+
+<section class="bg-[var(--theme-bg)] py-20 sm:py-28">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="reveal mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-[var(--theme-text)] sm:text-4xl">Our Demands</h2>
+      <p class="mt-4 text-lg leading-relaxed text-[var(--theme-text-secondary)]">Specific commitments Bill Llia will deliver as Governor of Nairobi County.</p>
+    </div>
+
+    {
+      demands.length > 0 ? (
+        <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {demands.map((demand) => (
+            <div class="reveal group relative flex flex-col rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--theme-amber)]/30 hover:shadow-lg hover:shadow-[var(--theme-amber)]/5">
+              <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--theme-amber)]/10 text-sm font-bold text-[var(--theme-amber)]">
+                {demand.order}
+              </div>
+              <h3 class="mb-4 text-lg font-semibold text-[var(--theme-text)]">{demand.title}</h3>
+              <a
+                href="/petition"
+                class="mt-auto flex items-center gap-1 text-sm font-medium text-[var(--theme-amber)] transition-colors hover:text-[var(--theme-amber)]/80"
+              >
+                Read more
+                <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="mt-16 text-center text-[var(--theme-text-secondary)]">No demands configured yet.</p>
+      )
+    }
+  </div>
+</section>
