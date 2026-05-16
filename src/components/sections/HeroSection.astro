@@ -1,14 +1,15 @@
 ---
-const title = 'The Leader Nairobi County Deserves';
-const subtitle =
-  'Bill Llia is running for Governor to bring accessible healthcare, quality education, and sustainable economic growth to Nairobi County.';
+import Button from '@ui/Button.astro';
 
-const stats = [
-  { label: 'Years Serving Community', value: '12+' },
-  { label: 'Health Centers Established', value: '4' },
-  { label: 'Youth Empowered', value: '500+' },
-  { label: 'Years in Public Service', value: '12+' },
-];
+type Stat = { value: string; label: string };
+
+interface Props {
+  title: string;
+  subtitle: string;
+  stats: Stat[];
+}
+
+const { title, subtitle, stats } = Astro.props;
 ---
 
 <section class="relative overflow-hidden bg-[var(--theme-surface-muted)] pt-28 pb-20 sm:pb-28">
@@ -42,15 +43,12 @@ const stats = [
 
       <!-- CTAs -->
       <div class="reveal delay-300 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <a
-          href="/contact"
-          class="group inline-flex items-center gap-2 rounded-xl bg-[var(--theme-lime)] px-8 py-3.5 text-base font-semibold text-[var(--color-warm-text)] transition-all hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
-        >
+        <Button href="/contact" variant="primary" size="lg">
           Join the Movement
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
-        </a>
+        </Button>
         <a
           href="/about"
           class="group inline-flex items-center gap-2 rounded-xl border border-[var(--theme-amber)]/30 px-8 py-3.5 text-base font-semibold text-[var(--theme-amber)] transition-all hover:bg-[var(--theme-amber)]/10 hover:-translate-y-0.5 active:translate-y-0"

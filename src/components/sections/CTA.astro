@@ -1,9 +1,14 @@
 ---
-const title = 'The Change Starts With You';
-const description =
-  'This campaign is powered by people who believe in a better Nairobi County. Whether you can volunteer your time, contribute ideas, or help spread the word — every hand makes a difference.';
-const primaryCTA = { text: 'Volunteer With Us', href: '/contact' };
-const secondaryCTA = { text: 'Learn More About Bill', href: '/about' };
+interface Props {
+  title: string;
+  description: string;
+  primaryCTA: { text: string; href: string };
+  secondaryCTA: { text: string; href: string };
+}
+
+import Button from '@ui/Button.astro';
+
+const { title, description, primaryCTA, secondaryCTA } = Astro.props;
 ---
 
 <section class="relative overflow-hidden bg-[var(--theme-surface-muted)] py-20 sm:py-28">
@@ -30,15 +35,12 @@ const secondaryCTA = { text: 'Learn More About Bill', href: '/about' };
       </p>
 
       <div class="reveal delay-300 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-        <a
-          href={primaryCTA.href}
-          class="group inline-flex items-center gap-2 rounded-xl bg-[var(--theme-lime)] px-8 py-3.5 text-base font-semibold text-[var(--color-warm-text)] transition-all hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
-        >
+        <Button href={primaryCTA.href} variant="primary" size="lg">
           {primaryCTA.text}
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
-        </a>
+        </Button>
         <a
           href={secondaryCTA.href}
           class="group inline-flex items-center gap-2 rounded-xl border border-[var(--theme-amber)]/30 px-8 py-3.5 text-base font-semibold text-[var(--theme-amber)] transition-all hover:bg-[var(--theme-amber)]/10 hover:-translate-y-0.5 active:translate-y-0"
