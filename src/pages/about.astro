@@ -1,9 +1,18 @@
 ---
 import BaseLayout from '@layout/BaseLayout.astro';
+import Button from '@ui/Button.astro';
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
+import KeystaticDocument from '../components/content/KeystaticDocument';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const settings = await reader.collections.settings.readOrThrow('site-settings');
+const { node: documentNode } = await settings.content();
 
 const seo = {
   title: 'About Bill Llia - Candidate for Governor, Nairobi County',
   description:
+    settings.aboutTagline ??
     'Learn about Bill Llia — his background, motivation for running, and vision for Nairobi County.',
 };
 ---
@@ -12,7 +21,6 @@ const seo = {
   <!-- Hero -->
   <section class="bg-[var(--theme-surface-muted)] pt-28 pb-16 sm:pb-20">
     <div class="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-      <!-- Decorative -->
       <div class="absolute top-10 right-1/4 h-32 w-32 rounded-full bg-[var(--theme-amber)]/5 blur-2xl animate-float" />
       <div class="absolute bottom-10 left-1/4 h-24 w-24 rounded-full bg-[var(--theme-amber)]/5 blur-2xl animate-float-delayed" />
 
@@ -21,97 +29,24 @@ const seo = {
           About <span class="bg-gradient-to-r from-[var(--theme-amber)] to-[var(--theme-amber)]/70 bg-clip-text text-transparent">Bill Llia</span>
         </h1>
         <p class="reveal delay-100 mx-auto mt-4 max-w-2xl text-lg text-[var(--theme-text-secondary)]">
-          A community servant, healthcare advocate, and candidate for Governor committed
-          to building a better Nairobi County.
+          {settings.aboutTagline}
         </p>
       </div>
     </div>
   </section>
 
-  <!-- Bio Section -->
+  <!-- Content rendered from CMS (Bio, Journey, Why Running) -->
   <section class="bg-[var(--theme-surface-muted)] py-16 sm:py-20">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-3xl">
-        <div class="reveal">
-          <h2 class="text-2xl font-bold text-[var(--theme-text)] sm:text-3xl">Rooted in Community</h2>
-          <div class="mt-6 space-y-5 text-base leading-relaxed text-[var(--theme-text-secondary)]">
-            <p>
-              Bill Llia is a dedicated public servant who has spent years working alongside
-              communities across Nairobi County, building health programs, supporting youth
-              initiatives, and advocating for better public services.
-            </p>
-            <p>
-              With a background in community health and development, Bill has helped establish health
-              centers and has empowered young people through skills training and mentorship
-              programs. His work has taken him across every constituency in the county, giving him a deep
-              understanding of the challenges and opportunities facing each community.
-            </p>
-            <p>
-              Bill is running for Governor because he believes that lasting change comes
-              from listening to the people and working together. He is not a career politician — he is a
-              community servant who has seen firsthand what is possible when dedicated leaders show up
-              and deliver.
-            </p>
-          </div>
+        <div class="reveal cms-content">
+          <KeystaticDocument node={documentNode} client:load />
         </div>
 
-        <!-- Timeline -->
-        <div class="reveal delay-100 mt-16">
-          <h2 class="text-2xl font-bold text-[var(--theme-text)] sm:text-3xl">Journey</h2>
-          <div class="mt-8 space-y-6">
-            {[
-              { year: '2012', title: 'Community Health Volunteer', desc: 'Began serving communities through local health initiatives and outreach programs.' },
-              { year: '2016', title: 'Health Program Coordinator', desc: 'Led the establishment of 2 community health centers serving underserved wards.' },
-              { year: '2020', title: 'Youth Empowerment Lead', desc: 'Launched skills training programs that have empowered 500+ young people.' },
-              { year: '2024', title: 'Governor Candidate', desc: 'Announced candidacy for Governor of Nairobi County with a people-first platform.' },
-            ].map((item, i) => (
-              <div class="group relative flex gap-6">
-                <div class="flex flex-col items-center">
-                  <div class="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--theme-amber)]/20 text-xs font-bold text-[var(--theme-amber)] ring-1 ring-[var(--theme-amber)]/30 transition-all duration-300 group-hover:bg-[var(--theme-amber)] group-hover:text-white">
-                    {i + 1}
-                  </div>
-                  {i < 3 && <div class="mt-1 h-full w-px bg-[var(--theme-border)]" />}
-                </div>
-                <div class="pb-6">
-                  <span class="text-xs font-semibold uppercase tracking-wider text-[var(--theme-amber)]">{item.year}</span>
-                  <h3 class="mt-1 text-lg font-semibold text-[var(--theme-text)]">{item.title}</h3>
-                  <p class="mt-1 text-sm text-[var(--theme-text-secondary)]">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Motivation Section -->
-  <section class="bg-[var(--theme-bg)] py-16 sm:py-20">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-3xl">
-        <div class="reveal">
-          <h2 class="text-2xl font-bold text-[var(--theme-text)] sm:text-3xl">Why I'm Running</h2>
-          <div class="mt-6 space-y-5 text-base leading-relaxed text-[var(--theme-text-secondary)]">
-            <p>
-              I'm running because our people deserve better. Too many families in Nairobi County go
-              without access to basic healthcare. Too many young people graduate with no path to employment.
-              Too many small businesses struggle to thrive.
-            </p>
-            <p>
-              These are not impossible problems. With focused leadership, transparent governance, and a
-              genuine commitment to serving the people, we can transform our county. I have the experience,
-              the energy, and the integrity to be the leader our community needs.
-            </p>
-            <p>
-              I am not asking for your vote — I am asking for your trust. And I will earn it by showing up,
-              listening, and delivering results.
-            </p>
-          </div>
-        </div>
-
+        <!-- Quote -->
         <div class="reveal delay-100 mt-10 border-l-2 border-[var(--theme-amber)]/40 pl-6 transition-all duration-300 hover:border-[var(--theme-amber)]">
           <p class="text-lg font-medium italic text-[var(--theme-text)]">
-            "Service with integrity. Leadership with heart."
+            {settings.aboutQuote}
           </p>
           <p class="mt-2 text-sm text-[var(--theme-text-tertiary)]">— Bill Llia</p>
         </div>
@@ -185,16 +120,50 @@ const seo = {
         <p class="mt-3 text-sm text-[var(--theme-text-secondary)]">
           Be part of the movement for change. Volunteer, donate, or spread the word.
         </p>
-        <a
-          href="/contact"
-          class="group mt-6 inline-flex items-center gap-2 rounded-xl bg-[var(--theme-lime)] px-6 py-3 text-sm font-semibold text-[var(--color-warm-text)] shadow-lg transition-all hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0"
-        >
+        <Button href="/contact" variant="primary" size="lg">
           Get Involved
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
-        </a>
+        </Button>
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style is:global>
+  .cms-content h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--theme-text);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    scroll-margin-top: 6rem;
+  }
+  .cms-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--theme-text);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .cms-content p {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+    color: var(--theme-text-secondary);
+  }
+  .cms-content ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .cms-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    color: var(--theme-text-secondary);
+  }
+  .cms-content strong {
+    color: var(--theme-text);
+    font-weight: 600;
+  }
+</style>

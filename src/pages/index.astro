@@ -1,13 +1,48 @@
 ---
 export const prerender = true;
 import BaseLayout from '@layout/BaseLayout.astro';
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
 import Hero from '@sections/HeroSection.astro';
 import FeatureShowcase from '@sections/FeatureShowcase.astro';
-import CTA from '@sections/CTA.astro';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const settings = await reader.collections.settings.readOrThrow('site-settings');
+
+const platformEntries = (await reader.collections.platform.all()) ?? [];
+
+const pillars = platformEntries
+  .map((item) => item.entry)
+  .filter((p) => p.sectionType === 'platform')
+  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
+  .map((p) => {
+    const rawFeatures = p.features ?? [];
+    const features = Array.isArray(rawFeatures) ? rawFeatures : [];
+    return {
+      title: p.title,
+      subtitle: p.subtitle ?? '',
+      icon: p.icon,
+      features,
+    };
+  });
+
+const rawStats = settings.heroStats;
+const heroStats = Array.isArray(rawStats) ? rawStats : [];
 ---
 
-<BaseLayout>
-  <Hero />
-  <FeatureShowcase />
-  <CTA />
+<BaseLayout
+  seo={{
+    title: settings.defaultSeoTitle,
+    description: settings.defaultSeoDescription,
+  }}
+>
+  <Hero
+    title={settings.heroTitle ?? ''}
+    subtitle={settings.heroSubtitle ?? ''}
+    stats={heroStats.map((s) => ({
+      value: s.value ?? '',
+      label: s.label ?? '',
+    }))}
+  />
+  <FeatureShowcase {pillars} />
 </BaseLayout>

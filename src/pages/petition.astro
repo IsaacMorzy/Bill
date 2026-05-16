@@ -1,19 +1,31 @@
 ---
 import BaseLayout from '@layout/BaseLayout.astro';
+import Button from '@ui/Button.astro';
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
 import { db, PetitionSignature } from 'astro:db';
+
+const reader = createReader(process.cwd(), keystaticConfig);
+const settings = await reader.collections.settings.readOrThrow('site-settings');
+const demandsEntries = await reader.collections.demands.all();
 
 const title = 'Sign the Petition — Bill Llia for Governor';
 const description = 'Join the movement for better leadership in Nairobi County. Sign the petition to support Dr. Bill Llia for Governor.';
 
-// Get signature count and query params
+// Get signature count
 const signatures = await db.select().from(PetitionSignature);
 const signatureCount = signatures.length;
 const success = Astro.url.searchParams.get('success');
 const error = Astro.url.searchParams.get('error');
 
-// Goal for the petition
-const goal = 1000;
+// Goal from CMS
+const goal = settings.petitionGoal ?? 1000;
 const percentage = Math.min(Math.round((signatureCount / goal) * 100), 100);
+
+// Get demands sorted by order
+const demands = demandsEntries
+  .map((item) => item.entry)
+  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
 ---
 
 <BaseLayout
@@ -35,12 +47,10 @@ const percentage = Math.min(Math.round((signatureCount / goal) * 100), 100);
           Citizen's Petition
         </div>
         <h1 class="reveal delay-100 bg-gradient-to-r from-[var(--theme-amber)] via-[var(--theme-amber)] to-[var(--theme-amber)]/70 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl lg:text-6xl">
-          We Deserve Better Leadership
+          {settings.petitionTitle ?? 'We Deserve Better Leadership'}
         </h1>
         <p class="reveal delay-200 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[var(--theme-text-secondary)]">
-          Nairobi County deserves a leader who brings real solutions, not empty promises.
-          Bill Llia has the experience, vision, and integrity to serve as our next Governor.
-          Add your voice to the growing demand for change.
+          {settings.petitionDescription ?? 'Nairobi County deserves a leader who brings real solutions, not empty promises.'}
         </p>
 
         <!-- Progress Bar -->
@@ -85,24 +95,18 @@ const percentage = Math.min(Math.round((signatureCount / goal) * 100), 100);
       </div>
     </section>
 
-    <!-- Our Demands -->
+    <!-- Our Demands from CMS -->
     <section class="border-b border-[var(--theme-border)] py-16">
       <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <h2 class="reveal text-2xl font-bold text-[var(--theme-text)] sm:text-3xl">Our Demands</h2>
         <div class="mt-8 space-y-3">
-          {[
-            'Quality healthcare that reaches every part of the county, not just the city centre',
-            'Real youth employment through skills training and enterprise support',
-            'Clean water access for all — no more broken infrastructure and empty promises',
-            'Transparent use of county resources — every shilling accounted for',
-            'Quality education infrastructure and vocational training centres',
-          ].map((demand, i) => (
+          {demands.map((demand, i) => (
             <div
               class="reveal group flex items-start gap-4 rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] p-4 transition-all duration-300 hover:border-[var(--theme-amber)]/30 hover:shadow-sm"
               style={`animation-delay: ${i * 100}ms`}
             >
               <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--theme-amber)]/20 text-sm font-bold text-[var(--theme-amber)] transition-all duration-300 group-hover:scale-110 group-hover:bg-[var(--theme-amber)]/30 group-hover:text-white">{i + 1}</span>
-              <p class="pt-1 text-[var(--theme-text)]">{demand}</p>
+              <p class="pt-1 text-[var(--theme-text)]">{demand.title}</p>
             </div>
           ))}
         </div>
@@ -219,15 +223,12 @@ const percentage = Math.min(Math.round((signatureCount / goal) * 100), 100);
                 Why do you support this cause? (optional)
               </label>
             </div>
-            <button
-              type="submit"
-              class="group w-full rounded-lg bg-[var(--theme-lime)] px-6 py-3 text-sm font-semibold text-[var(--color-warm-text)] shadow-lg transition-all hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
-            >
+            <Button type="submit" variant="primary" size="lg" class="w-full shadow-lg">
               Sign the Petition
               <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 inline-block h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
-            </button>
+            </Button>
           </form>
           <p class="mt-4 text-center text-xs text-[var(--theme-text-tertiary)]">
             Your information will only be used for campaign coordination purposes.
