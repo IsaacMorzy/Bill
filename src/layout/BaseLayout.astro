@@ -1,6 +1,8 @@
 ---
 import Navbar from '@layout/Navbar.astro';
 import Footer from '@sections/Footer.astro';
+import { createReader } from '@keystatic/core/reader';
+import keystaticConfig from '../../keystatic.config';
 import { ClientRouter } from 'astro:transitions';
 import { SEO, type Props as SEOProps } from 'astro-seo';
 import { Schema } from 'astro-seo-schema';
@@ -17,9 +19,14 @@ interface Props {
 const { seo, schema } = Astro.props;
 const socialImage = `${Astro.site}social.png`; // Path to the default social sharing image
 
-const ogTitle = seo?.title ?? 'Bill Llia for Governor - Nairobi County';
+// Load settings for footer
+const reader = createReader(process.cwd(), keystaticConfig);
+const settings = await reader.collections.settings.readOrThrow('site-settings').catch(() => null);
+
+const ogTitle = seo?.title ?? settings?.defaultSeoTitle ?? 'Bill Llia for Governor - Nairobi County';
 const ogDescription =
   seo?.description ??
+  settings?.defaultSeoDescription ??
   'Bill Llia is running for Governor to bring real healthcare, education, and economic opportunity to Nairobi County.';
 
 // Define default JSON-LD Schema.org data if no schema is passed
@@ -137,13 +144,23 @@ const defaultSchema: WithContext<Thing> = {
     </script>
   </head>
     <body class="bg-[var(--theme-bg)] selection:bg-[var(--theme-amber)]/20 selection:text-[var(--theme-text)]">
+    <!-- Skip to main content — first focusable element for keyboard users -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-[var(--theme-amber)] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white focus:shadow-lg focus:outline-none">
+      Skip to main content
+    </a>
+
     <Navbar />
 
-    <main>
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
 
-    <Footer />
+    <Footer
+  campaignName={settings?.campaignName ?? 'Bill Llia for Governor'}
+  campaignSlogan={settings?.campaignSlogan ?? 'A New Dawn for Nairobi County'}
+  campaignEmail={settings?.contactEmail ?? 'info@billlia.com'}
+  campaignPhone={settings?.contactPhone ?? ''}
+/>
 
     <!-- Scroll-reveal observer - animates elements with .reveal class on scroll -->
     <script>
