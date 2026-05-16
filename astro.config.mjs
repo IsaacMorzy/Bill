@@ -1,10 +1,30 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { readdirSync, statSync } from 'node:fs';
+import { join, relative } from 'node:path';
 import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 import db from '@astrojs/db';
 import keystatic from '@keystatic/astro';
+
+// Collect all Keystatic content files so the Vercel serverless
+// function includes them at runtime.
+/** @param {string} dir @returns {string[]} */
+function collectFiles(dir) {
+  const entries = readdirSync(dir);
+  const files = /** @type {string[]} */ ([]);
+  for (const entry of entries) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) {
+      files.push(...collectFiles(full));
+    } else {
+      files.push(relative(process.cwd(), full));
+    }
+  }
+  return files;
+}
+const contentFiles = collectFiles(join(process.cwd(), 'src/content'));
 
 // https://astro.build/config
 export default defineConfig({
@@ -43,7 +63,7 @@ export default defineConfig({
   },
   output: 'server',
   adapter: vercel({
-    includeFiles: ['content/**/*'],
+    includeFiles: contentFiles,
   }),
   integrations: [
     react(),
