@@ -42,7 +42,9 @@ export default defineConfig({
     },
   },
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    includeFiles: ['content/**/*'],
+  }),
   integrations: [
     react(),
     db(),
