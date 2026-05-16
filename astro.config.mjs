@@ -8,7 +8,7 @@ import keystatic from '@keystatic/astro';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://bill.vercel.app',
+  site: 'https://bill-two-alpha.vercel.app',
   prefetch: true,
   trailingSlash: 'never',
   vite: {
