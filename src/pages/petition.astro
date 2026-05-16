@@ -4,6 +4,7 @@ import Button from '@ui/Button.astro';
 import { createReader } from '@keystatic/core/reader';
 import keystaticConfig from '../../keystatic.config';
 import { db, PetitionSignature } from 'astro:db';
+import KeystaticDocument from '@/components/content/KeystaticDocument';
 
 const reader = createReader(process.cwd(), keystaticConfig);
 const settings = await reader.collections.settings.readOrThrow('site-settings');
@@ -27,10 +28,18 @@ const error = Astro.url.searchParams.get('error');
 const goal = settings.petitionGoal ?? 1000;
 const percentage = Math.min(Math.round((signatureCount / goal) * 100), 100);
 
-// Get demands sorted by order
-const demands = demandsEntries
-  .map((item) => item.entry)
-  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+// Get demands sorted by order and resolve their content
+const demands = await Promise.all(
+  demandsEntries
+    .sort((a, b) => (a.entry.order ?? 99) - (b.entry.order ?? 99))
+    .map(async (item) => {
+      const { node } = await item.entry.content();
+      return {
+        title: item.entry.title,
+        content: node,
+      };
+    })
+);
 ---
 
 <BaseLayout
@@ -104,14 +113,19 @@ const demands = demandsEntries
     <section class="border-b border-[var(--theme-border)] py-16">
       <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <h2 class="reveal text-2xl font-bold text-[var(--theme-text)] sm:text-3xl">Our Demands</h2>
-        <div class="mt-8 space-y-3">
+        <div class="mt-8 space-y-6">
           {demands.map((demand, i) => (
             <div
-              class="reveal group flex items-start gap-4 rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] p-4 transition-all duration-300 hover:border-[var(--theme-amber)]/30 hover:shadow-sm"
+              class="reveal group rounded-xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-6 transition-all duration-300 hover:border-[var(--theme-amber)]/30 hover:shadow-sm"
               style={`animation-delay: ${i * 100}ms`}
             >
-              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--theme-amber)]/20 text-sm font-bold text-[var(--theme-amber)] transition-all duration-300 group-hover:scale-110 group-hover:bg-[var(--theme-amber)]/30 group-hover:text-white">{i + 1}</span>
-              <p class="pt-1 text-[var(--theme-text)]">{demand.title}</p>
+              <div class="flex items-start gap-4 mb-4">
+                <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--theme-amber)]/20 text-sm font-bold text-[var(--theme-amber)] transition-all duration-300 group-hover:scale-110 group-hover:bg-[var(--theme-amber)]/30 group-hover:text-white">{i + 1}</span>
+                <h3 class="pt-1 text-xl font-bold text-[var(--theme-text)]">{demand.title}</h3>
+              </div>
+              <div class="pl-12">
+                <KeystaticDocument node={demand.content} />
+              </div>
             </div>
           ))}
         </div>

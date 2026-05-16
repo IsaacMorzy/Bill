@@ -15,13 +15,18 @@ const settings = await reader.collections.settings.readOrThrow('site-settings');
 const platformEntries = (await reader.collections.platform.all()) ?? [];
 
 const rawDemands = (await reader.collections.demands.all()) ?? [];
-const demands = rawDemands
-  .map((d) => d.entry)
-  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99))
-  .map((d) => ({
-    title: d.title,
-    order: d.order ?? 0,
-  }));
+const demands = await Promise.all(
+  rawDemands
+    .sort((a, b) => (a.entry.order ?? 99) - (b.entry.order ?? 99))
+    .map(async (d) => {
+      const { node } = await d.entry.content();
+      return {
+        title: d.entry.title,
+        order: d.entry.order ?? 0,
+        content: node,
+      };
+    })
+);
 
 const rawPosts = (await reader.collections.posts.all()) ?? [];
 const posts = rawPosts

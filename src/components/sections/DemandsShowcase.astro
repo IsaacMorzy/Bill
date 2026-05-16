@@ -1,7 +1,10 @@
 ---
+import KeystaticDocument from '@/components/content/KeystaticDocument';
+
 interface Demand {
   title: string;
   order: number;
+  content: any;
 }
 interface Props {
   demands: Demand[];
@@ -19,18 +22,25 @@ const { demands } = Astro.props;
 
     {
       demands.length > 0 ? (
-        <div class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-2">
           {demands.map((demand) => (
-            <div class="reveal group relative flex flex-col rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--theme-amber)]/30 hover:shadow-lg hover:shadow-[var(--theme-amber)]/5">
-              <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--theme-amber)]/10 text-sm font-bold text-[var(--theme-amber)]">
-                {demand.order}
+            <div class="reveal group relative flex flex-col rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] p-8 transition-all duration-300 hover:border-[var(--theme-amber)]/30 hover:shadow-lg">
+              <div class="flex items-start gap-4 mb-6">
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--theme-amber)]/10 text-sm font-bold text-[var(--theme-amber)]">
+                  {demand.order}
+                </div>
+                <h3 class="pt-1 text-2xl font-bold text-[var(--theme-text)]">{demand.title}</h3>
               </div>
-              <h3 class="mb-4 text-lg font-semibold text-[var(--theme-text)]">{demand.title}</h3>
+              
+              <div class="mb-8 overflow-hidden text-sm line-clamp-[8]">
+                <KeystaticDocument node={demand.content} />
+              </div>
+
               <a
                 href="/petition"
                 class="mt-auto flex items-center gap-1 text-sm font-medium text-[var(--theme-amber)] transition-colors hover:text-[var(--theme-amber)]/80"
               >
-                Read more
+                Read full demand and sign
                 <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
