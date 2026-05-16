@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
 import db from '@astrojs/db';
+import keystatic from '@keystatic/astro';
 
 // Collect all Keystatic content files so the Vercel serverless
 // function includes them at runtime.
@@ -67,5 +68,6 @@ export default defineConfig({
   integrations: [
     react(),
     db(),
+    keystatic(),
   ],
 });
