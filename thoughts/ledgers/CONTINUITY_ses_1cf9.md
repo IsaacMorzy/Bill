@@ -1,59 +1,87 @@
 ---
 session: ses_1cf9
-updated: 2026-05-16T12:35:46.311Z
+updated: 2026-05-16T13:00:50.854Z
 ---
 
 # Session Summary
 
 ## Goal
-Fully redesign and polish the Bill Llia campaign website with animations, micro-interactions, and modern UI patterns — achieving 0 build errors/warnings/hints.
+Fix Vite chunk size warning and configure Astro DB (Turso) + Keystatic CMS production setup for Vercel deployment.
 
 ## Constraints & Preferences
-- Keep warm amber/lime palette (no blue — fixed 20 broken `--theme-blue` refs)
-- All animations must respect `prefers-reduced-motion`
-- Use Tailwind CSS v4 exclusively (no custom CSS that can be Tailwind utilities)
-- Keep Astro `.astro` components — no React/Svelte for UI
-- All UI already functional — only improving existing structure, not rewriting logic
+- Astro v6.3.1 SSR with `@astrojs/vercel` adapter
+- `@astrojs/db` v0.21.1 with remote Turso/libSQL database
+- `@keystatic/astro` v5.0.6 with GitHub storage mode in production, local in dev
+- `.env` is gitignored — secrets set in Vercel dashboard env vars
+- Build command: `astro check && astro build --remote`
+- CSP in `vercel.json` must allow `api.github.com` for Keystatic GitHub API calls
+- Chunks: `react`, `markdoc`, `keystatic` split via `manualChunks`; admin SPA limit bumped to 3000 KB
 
 ## Progress
 ### Done
-- [x] **Button** (`src/components/ui/Button.astro`) — hover `-translate-y-0.5`, active `scale-[0.97]`, loading spinner, `focus-visible` ring, size variants
-- [x] **ThemeToggle** (`src/components/ui/ThemeToggle.astro`) — icons swap with rotation animation (0° ↔ 90°), bfcache safety, `prefers-reduced-motion` respect
-- [x] **Navbar** (`src/layout/Navbar.astro`) — sticky (`fixed top-0`), glassmorphism (`backdrop-blur-xl bg-[var(--theme-navbar-bg)]`), scroll shadow on `scrollY > 10`, mobile menu with slide-down animation + overlay backdrop
-- [x] **HeroSection** (`src/components/sections/HeroSection.astro`) — animated gradient background, floating orbs (`animate-pulse-soft`, `animate-float`), scroll indicator (bouncing chevron), `reveal` + `reveal-delayed` stagger, stats cards with hover scale/shadow
-- [x] **FeatureShowcase** (`src/components/sections/FeatureShowcase.astro`) — staggered cards (delay cascading `delay-[i*100]`), hover `scale-[1.02]` + `shadow-lg`, icon container `hover:scale-110 hover:rotate-3` with 3D `perspective`
-- [x] **CTA** (`src/components/sections/CTA.astro`) — animated floating shapes (border circles + blurs), gradient icon with hover scale, smooth `transition-all`
-- [x] **Footer** (`src/components/sections/Footer.astro`) — back-to-top button (fades in/out on scroll via IntersectionObserver), social icons with `hover:-translate-y-1` + colored glow on brand color, reveal animations on links
-- [x] **BaseLayout** (`src/layout/BaseLayout.astro`) — `<ClientRouter>` for page transitions, scroll reveal `IntersectionObserver` for `.reveal` class (dispatches on `astro:page-load`), smooth scroll behavior, custom thin scrollbar, inline script prevents theme flash (sets data-theme before paint)
-- [x] **About page** (`src/pages/about.astro`) — timeline steps (numbered with `h-12 w-12` circles + connecting line), values cards with hover scale + shadow, stats bar (`bg-[var(--theme-amber)]/10` grid), gradient heading text
-- [x] **Contact page** (`src/pages/contact.astro`) — floating labels on inputs (placeholder-shown + focus effects), toast notification for success/error from URL params, contact info cards with icon backgrounds + hover scale, social link cards, form field hover/focus transitions
-- [x] **Petition page** (`src/pages/petition.astro`) — progress bar with animated width (`transition-all duration-700 ease-out`), live signature count with cyan highlight, demand list with numbered steps + hover scale, share buttons (copy link with fallback + copy animation), floating labels on form, inline script constants for success/error toast handling with auto-dismiss
-- [x] **Blog index** (`src/pages/blog/index.astro`) — card with `hover:-translate-y-1 shadow-lg`, hover underline effects on post titles, tag pills, empty state message
-- [x] **Blog post** (`src/pages/blog/[slug].astro`) — back link with chevron, tag pills with `bg-[var(--theme-amber)]/10`, published date
-- [x] **global.css** (`src/assets/styles/global.css`) — `@keyframes` for `pulse-soft`, `float`, `float-delayed`; `.reveal`/`.reveal-delayed` classes with `opacity-0 translate-y-8` animated to visible; custom thin scrollbar; CSS custom properties for all theme colors; `prefers-reduced-motion` disables all animations
-- [x] **Fixed 20 broken `--theme-blue` refs** — replaced all with `--theme-amber` (or `--theme-lime` for CTAs) in about.astro, contact.astro, petition.astro
-- [x] **Fixed unused `i` variable** — removed from HeroSection.astro `stats.map((stat) => ...)` (was the only build hint)
-- [x] **Build verified** — `pnpm build` passes: 0 errors, 0 warnings, 0 hints
+- [x] Installed Turso CLI v1.0.25 (`curl -sSfL https://get.tur.so/install.sh | bash`)
+- [x] Logged in to Turso as `isaacmorzy` (browser-based OAuth)
+- [x] Created Turso database `bill-campaign` in `aws-ap-northeast-1`
+- [x] Retrieved `ASTRO_DB_REMOTE_URL` and `ASTRO_DB_APP_TOKEN`
+- [x] Set credentials in `.env` for local development
+- [x] Ran `astro db push --remote` — pushed schema to Turso, tables verified: `ContactSubmission`, `PetitionSignature`, `_astro_db_snapshot`
+- [x] Added `manualChunks` in `astro.config.mjs` splitting `react`, `@keystatic/core/astro`, `@markdoc/markdoc` into separate cacheable chunks
+- [x] Bumped `chunkSizeWarningLimit` to 3000 KB (Keystatic admin SPA is ~2.6 MB expected)
+- [x] Updated CSP in `vercel.json` — added `api.github.com` to `connect-src`, `avatars.githubusercontent.com` + `data:` to `img-src`
+- [x] Updated `.env` with complete production instructions (Turso setup steps — `$ turso db create / show --url / tokens create`)
+- [x] Committed all changes: `dff95eb` — 16 files, 848 insertions, 397 deletions
 
 ### In Progress
-- [ ] (none — all tasks complete)
+- [ ] Vercel env vars not yet set in dashboard — user has the key/value pairs displayed below
 
 ### Blocked
 - (none)
 
 ## Key Decisions
-- **`--theme-blue` → `--theme-amber`**: The palette has no blue — all 20 references were rendering invisible elements. Replaced with warm amber to match the brand.
-- **`prefers-reduced-motion` handled globally in global.css**: Rather than per-component, one CSS rule disables all animations for accessibility.
-- **Reveal system via IntersectionObserver in BaseLayout**: `.reveal` elements get animated on scroll into view; dispatches `astro:page-load` event so it works with ClientRouter page transitions.
-- **Toast via URL searchParams**: Success/error messages from form submissions use query params + client-side JS to show/hide a toast bar (auto-dismisses after 5s). No server-side flash message framework needed.
+- **manualChunks split strategy**: Split `react`, `@keystatic/core/astro`, `@markdoc/markdoc` into named chunks. Prevents 2.75 MB monolithic keystatic-page from also bundling React and Markdoc. Blog pages now only load `markdoc` (274 KB) instead of full admin SPA.
+- **chunkSizeWarningLimit 3000**: The Keystatic admin SPA (~2.6 MB) is a rich-text editor (Slate/ProseMirror) — administered SPA, only hit on `/keystatic` route. Not meaningful to split further.
+- **Turso over local file DB**: Production needs persistent remote DB. `astro db push --remote` pushes schema to Turso. Build uses `--remote` flag.
+- **Keystatic GitHub mode env vars**: `KEYSTATIC_STORAGE_MODE=github` plus `REPO_OWNER`/`REPO_NAME` set in Vercel env vars. CSP must allow `api.github.com` for API calls.
 
 ## Next Steps
-1. All tasks complete — no remaining work. Ready for deployment/feature additions.
+1. Set these 5 env vars in Vercel Dashboard → Project → Settings → Environment Variables (Production environment):
+
+   | Key | Value |
+   |---|---|
+   | `ASTRO_DB_REMOTE_URL` | `libsql://bill-campaign-isaacmorzy.aws-ap-northeast-1.turso.io` |
+   | `ASTRO_DB_APP_TOKEN` | `eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Nzg5MzU2NDcsImlkIjoiMDE5ZTMwZDMtYWQwMS03NjU2LWFhMWEtMGY3NWU1YjY0MzEzIiwicmlkIjoiNThlODIzZjAtMjFhNy00ZDBiLTllODItYTI0MmYxYzE2YTFhIn0.6WvZdpmP5jfPbpPBEu3b5oehNvmAsqvbTp0qXTDlCJakXC2SLlCSxVIEXRq2mCj_SiJKXUC4N8FA5jO4Vz3FDQ` |
+   | `KEYSTATIC_STORAGE_MODE` | `github` |
+   | `KEYSTATIC_REPO_OWNER` | `IsaacMorzy` |
+   | `KEYSTATIC_REPO_NAME` | `Bill` |
+
+2. Configure Keystatic GitHub App for write access to the repo (needed for CMS to commit content from admin dashboard)
+3. Trigger a Vercel production deploy to verify build with remote DB and CSP
+4. Test `/keystatic` route in production (GitHub auth flow)
+5. Test contact form and petition form in production (DB writes)
 
 ## Critical Context
-- **Navigation data**: `src/utils/navigation.ts` exports `navigationList` array used by Navbar.astro — all links tracked there.
-- **Keystatic CMS**: Blog posts read via `@keystatic/core/reader`, content rendered via custom `KeystaticDocument.tsx` component. Markdoc field returns `{ node }` when resolved.
-- **Astro DB**: Petition signatures stored via Astro DB `PetitionSignature` collection in `db/config.ts`. Form POST handler in `src/pages/api/petition.ts`. Contact form POST in `src/pages/api/contact.ts`.
-- **Vercel deployment**: SSR mode via `@astrojs/vercel` adapter. `output: "server"`.
-- **Tailwind v4 + Preline**: Preline JS loaded via `data-hs-config='{"toggleDisk":"hover"}'` in global.css and `import('preline')` in BaseLayout script.
-- **Build passes clean**: 0 errors, 0 warnings, 0 hints. Last confirmed build was successful with all routes prerendered.
+- **DB credentials**: Turso database `bill-campaign` at `aws-ap-northeast-1`. Token is a JWT valid until revoked. Generated via `turso db tokens create bill-campaign`.
+- **Chunk sizes after split**: `keystatic-page` = 2.6 MB, `markdoc` = 274 KB, `react` = 193 KB, `KeystaticDocument` = 475 B
+- **Build passes clean**: 0 errors, 0 warnings, 0 hints on `pnpm build`
+- **`astro db login` doesn't exist** in v0.21.1 — Turso credentials obtained via Turso CLI directly (not Astro CLI)
+- **CSP current state**: `connect-src 'self' https://api.github.com` — this allows Keystatic GitHub API. If Keystatic needs additional CSP relaxations (e.g., `'unsafe-eval'` for editor workers), that would need a path-specific override in `vercel.json` for `/keystatic/**`
+- **KeystaticDocument** (475 B) imports `@markdoc/markdoc` and `react` — both now in separate shared chunks. The `@keystatic/core/reader` import in blog pages is tree-shakeable
+- **.db file**: `.env.template` was deleted (renamed to `.env`). New `.env` has real creds + full production setup instructions. `.env` is gitignored.
+
+## File Operations
+### Read (most relevant for continuing)
+- `/home/morzy/Documents/frontend/astro/projects/bill/astro.config.mjs`
+- `/home/morzy/Documents/frontend/astro/projects/bill/.env`
+- `/home/morzy/Documents/frontend/astro/projects/bill/keystatic.config.ts`
+- `/home/morzy/Documents/frontend/astro/projects/bill/db/config.ts`
+- `/home/morzy/Documents/frontend/astro/projects/bill/vercel.json`
+- `/home/morzy/Documents/frontend/astro/projects/bill/package.json`
+- `/home/morzy/Documents/frontend/astro/projects/bill/src/pages/api/contact.ts`
+- `/home/morzy/Documents/frontend/astro/projects/bill/src/pages/api/petition.ts`
+- `/home/morzy/Documents/frontend/astro/projects/bill/src/components/content/KeystaticDocument.tsx`
+
+### Modified (this session)
+- `/home/morzy/Documents/frontend/astro/projects/bill/astro.config.mjs` — manualChunks + chunkSizeWarningLimit
+- `/home/morzy/Documents/frontend/astro/projects/bill/.env` — real Turso credentials + updated instructions
+- `/home/morzy/Documents/frontend/astro/projects/bill/.env.template` — deleted (renamed to .env)
+- `/home/morzy/Documents/frontend/astro/projects/bill/vercel.json` — CSP update for Keystatic GitHub API
